@@ -32,3 +32,6 @@ EBAテックの進捗管理システムの宿題
 Macbook(OS Version:13.3.1)
 
 MySQL:8.0.33 for macos13.3
+
+##Spring link
+https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.0.6&packaging=jar&jvmVersion=17&groupId=jp.ebacorp.Hiroyuki.Nishi&artifactId=EBAtechPMS&name=EBAtechPMS&description=Homework&packageName=jp.ebacorp.Hiroyuki.Nishi.EBAtechPMS&dependencies=devtools,lombok,web,thymeleaf,security,data-jpa,mysql
