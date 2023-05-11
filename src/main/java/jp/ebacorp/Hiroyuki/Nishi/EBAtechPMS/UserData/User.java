@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+//User(会員)のエンティティクラス。DB上のレコードをJavaのクラスにしたようなもの
 @Entity
 @Table(name = "Users")
 @Getter
