@@ -12,6 +12,7 @@ public class MvcConfig implements WebMvcConfigurer {
         System.out.println("Tomcatで実行時に呼び出される---------");
         registry.addViewController("/index").setViewName("index");
         registry.addViewController("/").setViewName("index");
+
         registry.addViewController("/hello").setViewName("hello");
         registry.addViewController("/login").setViewName("login");
         System.out.println("addViewControllers---------");
