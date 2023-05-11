@@ -18,11 +18,11 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home","index").permitAll()
+                        .requestMatchers("/", "/index","index").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login")
+                        .loginPage("/")
                         .permitAll()
                 )
                 .logout((logout) -> logout.permitAll());
