@@ -1,0 +1,8 @@
+<head xmlns:th="http://www.thymeleaf.org" th:fragment="head_fragment(title, scripts, links)">
+  <title th:text="${title}"></title>
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <!-- 各画面専用のscript,cssを定義します -->
+  <th:block th:replace="${links}" />
+  <th:block th:replace="${scripts}" />
+</head>
