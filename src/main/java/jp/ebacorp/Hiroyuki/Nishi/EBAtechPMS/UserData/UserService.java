@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-//User(会員)の登録のためのServiceクラス
+//User(会員)の情報登録のためのServiceクラス
 //削除とパスワード変更用のメソッドも後々必要。
 @Service
 public class UserService {
