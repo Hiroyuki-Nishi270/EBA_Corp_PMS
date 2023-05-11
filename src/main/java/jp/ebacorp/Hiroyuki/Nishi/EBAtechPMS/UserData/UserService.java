@@ -1,6 +1,7 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAtechPMS.UserData;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,8 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    //暗号化処理のインスタンス生成
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     // ユーザー登録用API
     public User createUser(String name, String email, String rawPassword) {
