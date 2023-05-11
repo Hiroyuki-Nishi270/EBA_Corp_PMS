@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EbAtechPmsApplication {
+public class EBAtechPMSApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EbAtechPmsApplication.class, args);
+		SpringApplication.run(EBAtechPMSApplication.class, args);
 	}
 
 }
