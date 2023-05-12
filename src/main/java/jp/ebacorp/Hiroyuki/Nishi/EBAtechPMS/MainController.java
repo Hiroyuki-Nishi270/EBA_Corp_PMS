@@ -12,7 +12,6 @@ public class MainController {
     @GetMapping({"/","/index","index"})
     String indexController(Model model){
         model.addAttribute("title","EBAtechPMS");
-        model.addAttribute("h1","EBAtech Project Management System");
 
         System.out.println("index is called");
         return "index";
