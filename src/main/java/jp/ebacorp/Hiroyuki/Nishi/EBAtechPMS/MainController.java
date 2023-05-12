@@ -11,10 +11,8 @@ public class MainController {
 
     @GetMapping({"/","/index","index"})
     String indexController(Model model){
-        //List<TaskItem> taskItems = dao.findAll();
-        //model.addAttribute("taskList", taskItems);
-
-        model.addAttribute("title","インデックス");
+        model.addAttribute("title","EBAtechPMS");
+        model.addAttribute("h1","EBAtech Project Management System");
 
         System.out.println("index is called");
         return "index";
