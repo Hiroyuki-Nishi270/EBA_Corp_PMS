@@ -9,7 +9,7 @@ import java.util.List;
 @Controller
 public class MainController {
 
-    @GetMapping({"/","/index","index"})
+    @GetMapping("/")
     String indexController(Model model){
         model.addAttribute("title","EBAtechPMS");
 
