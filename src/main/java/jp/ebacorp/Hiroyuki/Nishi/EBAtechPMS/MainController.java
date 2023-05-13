@@ -22,4 +22,14 @@ public class MainController {
 
         return "index";
     }
+
+    @GetMapping("/register")
+    String registerController(Model model){
+        model.addAttribute("title","register");
+
+        System.out.println("register is called");
+        System.out.println();
+
+        return "register";
+    }
 }
