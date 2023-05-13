@@ -15,6 +15,8 @@ public class Page {
 
     private String mappingString;
 
+    private String controllerName;
+
     private String viewName;
 
     private String pageTitle;
