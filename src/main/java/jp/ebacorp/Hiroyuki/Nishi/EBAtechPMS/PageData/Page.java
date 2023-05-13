@@ -1,13 +1,13 @@
-package jp.ebacorp.Hiroyuki.Nishi.EBAtechPMS;
+package jp.ebacorp.Hiroyuki.Nishi.EBAtechPMS.PageData;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
 
 @Entity
 @Table(name = "Pages")
-@Data
+@Getter
 public class Page {
 
     @Id
