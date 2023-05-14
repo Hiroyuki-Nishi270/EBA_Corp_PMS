@@ -15,7 +15,7 @@ public class MainController {
 
     @GetMapping("/")
     String indexController(Model model){
-        model.addAttribute("title","EBAtechPMS");
+        model.addAttribute("title","EBAtecPMS");
 
         System.out.println("index is called");
         System.out.println();
@@ -25,7 +25,7 @@ public class MainController {
 
     @GetMapping("/register")
     String registerController(Model model){
-        model.addAttribute("title","register");
+        model.addAttribute("title","会員登録 | EBAtecPMS");
 
         System.out.println("register is called");
         System.out.println();
