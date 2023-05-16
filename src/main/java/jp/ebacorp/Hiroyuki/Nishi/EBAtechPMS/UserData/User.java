@@ -1,7 +1,9 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAtechPMS.UserData;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 //User(会員)のエンティティクラス。DB上のレコードをJavaのクラスにしたようなもの

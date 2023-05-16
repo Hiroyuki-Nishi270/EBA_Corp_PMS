@@ -1,8 +1,11 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAtechPMS;
 
+import jp.ebacorp.Hiroyuki.Nishi.EBAtechPMS.UserData.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -27,5 +30,22 @@ public class MainController {
         System.out.println();
 
         return "register";
+    }
+
+    @PostMapping("/addmember")
+    String addMemberController(
+            Model model,
+            @RequestParam("username") String username,
+            @RequestParam("email") String email,
+            @RequestParam("password1") String password1,
+            @RequestParam("password2") String password2
+            ){
+
+        UserService userService = new UserService();
+        userService.createUser(username,email,password1);
+
+        model.addAttribute("result","会員登録に成功しました！");
+
+        return "index";
     }
 }
