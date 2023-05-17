@@ -25,7 +25,7 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/register")
+    @GetMapping("register")
     String registerController(Model model){
         model.addAttribute("title","会員登録 | EBAtecPMS");
 
@@ -35,7 +35,7 @@ public class MainController {
         return "register";
     }
 
-    @PostMapping("/addmember")
+    @PostMapping("addmember")
     String addMemberController(
             Model model,
             @RequestParam("username") String username,
@@ -44,10 +44,19 @@ public class MainController {
             @RequestParam("password2") String password2
             ){
 
-        userService.createUser(username,email,password1);
+        if(userService.createUser(username,email,password1)){
+            model.addAttribute("result","会員登録に成功しました！");
+            System.out.println("成功");
+            return "index";
 
-        model.addAttribute("result","会員登録に成功しました！");
+        }else {
+            model.addAttribute("result","このメールアドレスは既に登録されております");
+            System.out.println("失敗");
+            return "register";
+        }
 
-        return "index";
+
+
+
     }
 }
