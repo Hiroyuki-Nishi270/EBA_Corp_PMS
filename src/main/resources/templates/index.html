@@ -15,6 +15,12 @@ https://mdbootstrap.com/docs/standard/extended/login/
                 <div class="col">
                 </div>
                 <div class="col-6">
+                    <!--Message from BE -->
+                    <div class="form-outline mb-4">
+                        <div th:if="${result != null}">
+                            <p th:text="${result}"></p>
+                        </div>
+                    </div>
                     <!-- Email input -->
                     <div class="form-outline mb-4">
                         <input type="email" id="form2Example1" class="form-control" />
