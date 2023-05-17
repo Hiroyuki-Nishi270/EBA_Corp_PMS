@@ -19,8 +19,7 @@ public class MainController {
     String indexController(Model model){
         model.addAttribute("title","EBAtecPMS");
 
-        System.out.println("index is called");
-        System.out.println();
+        System.out.println("indexController is called");
 
         return "index";
     }
@@ -29,8 +28,7 @@ public class MainController {
     String registerController(Model model){
         model.addAttribute("title","会員登録 | EBAtecPMS");
 
-        System.out.println("register is called");
-        System.out.println();
+        System.out.println("registerController is called");
 
         return "register";
     }
@@ -44,19 +42,25 @@ public class MainController {
             @RequestParam("password2") String password2
             ){
 
-        if(userService.createUser(username,email,password1)){
-            model.addAttribute("result","会員登録に成功しました！");
-            System.out.println("成功");
-            return "index";
+        if(password1.equals(password2)){
+            if(userService.createUser(username,email,password1)){
+                model.addAttribute("result","会員登録に成功しました！");
+                model.addAttribute("title","EBAtecPMS");
+                return "index";
 
-        }else {
-            model.addAttribute("result","このメールアドレスは既に登録されております");
-            System.out.println("失敗");
+            }else {
+                model.addAttribute("title","会員登録 | EBAtecPMS");
+                model.addAttribute("result","このメールアドレスは既に登録されております");
+                model.addAttribute("username",username);
+                model.addAttribute("email",email);
+                return "register";
+            }
+        }else{
+            model.addAttribute("title","会員登録 | EBAtecPMS");
+            model.addAttribute("result","入力されたパスワードが一致しておりません");
+            model.addAttribute("username",username);
+            model.addAttribute("email",email);
             return "register";
         }
-
-
-
-
     }
 }

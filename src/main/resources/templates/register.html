@@ -21,13 +21,13 @@ https://mdbootstrap.com/docs/standard/extended/login/
                 </div>
                 <!--User name input -->
                 <div class="form-outline mb-4">
-                    <input type="text" id="username" name="username" class="form-control">
+                    <input type="text" id="username" name="username" class="form-control" th:value="${username}">
                     <label class="form-label" for="username">User name</label>
                 </div>
                 
                 <!-- Email input -->
                 <div class="form-outline mb-4">
-                    <input type="email" id="email" name="email" class="form-control">
+                    <input type="email" id="email" name="email" class="form-control" th:value="${email}">
                     <label class="form-label" for="email">Email address</label>
                 </div>
 
@@ -53,7 +53,6 @@ https://mdbootstrap.com/docs/standard/extended/login/
         </div>
     </div>
 </form>
-<a href="/addmember">kub</a>
 <footer th:replace="~{Footer::Footer}"></footer>
 
 
