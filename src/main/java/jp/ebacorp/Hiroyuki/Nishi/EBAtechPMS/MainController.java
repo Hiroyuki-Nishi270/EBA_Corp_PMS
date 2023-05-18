@@ -1,18 +1,14 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAtechPMS;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.sql.DataSource;
 
 
 @Controller
@@ -25,7 +21,15 @@ public class MainController {
     UserDetailsService userDetailsService;
 
     @Autowired
-    DataSource dataSource;
+    UserAction userAction;
+
+    //@Autowired
+    //DataSource dataSource;
+
+    //@Autowired
+    //PasswordEncoder encoder;
+
+
 
     @GetMapping("/")
     String indexController(Model model){
@@ -64,11 +68,7 @@ public class MainController {
                 return "register";
 
             }catch (UsernameNotFoundException e){
-                UserDetails user = User.builder().username(username).password(password1).roles("USER").build();
-                JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-
-                users.createUser(user);
-                System.out.println("test");
+                userAction.createUser(username, password1);
 
                 model.addAttribute("result","会員登録に成功しました！");
                 model.addAttribute("title","EBAtecPMS");
