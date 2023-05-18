@@ -13,23 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MainController {
-
-    //@Autowired
-    //UserService userService;
-
     @Autowired
     UserDetailsService userDetailsService;
 
     @Autowired
     UserAction userAction;
-
-    //@Autowired
-    //DataSource dataSource;
-
-    //@Autowired
-    //PasswordEncoder encoder;
-
-
 
     @GetMapping("/")
     String indexController(Model model){
