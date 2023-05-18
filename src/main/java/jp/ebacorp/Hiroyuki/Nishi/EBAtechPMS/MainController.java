@@ -45,7 +45,7 @@ public class MainController {
         return "register";
     }
 
-    @PostMapping("addmember")
+    @PostMapping("register")
     String addMemberController(
             Model model,
             @RequestParam("username") String username,
