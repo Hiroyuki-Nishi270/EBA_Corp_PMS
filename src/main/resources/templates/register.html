@@ -43,6 +43,7 @@ https://mdbootstrap.com/docs/standard/extended/login/
                     <div class="form-outline mb-4">
                         <input type="password" id="password2" name="password2" class="form-control">
                         <label class="form-label" for="password2">Input Password again</label>
+                        <span id="errormessage"></span>
                     </div>
 
                     <!-- Submit button -->
@@ -55,10 +56,20 @@ https://mdbootstrap.com/docs/standard/extended/login/
             </div>
         </div>
     </form>
-    <script type="javascript">
+    <script type="text/javascript">
         <!-- ここに記載 -->
-        let password1 = getElementsbyName("password1");
-        console.log =password1.value;
+        let password1 = document.querySelector('#password1');
+        let password2 = document.querySelector('#password2');
+        let errormessage = document.querySelector('#errormessage');
+
+        password2.addEventListener('change',function(){
+            if(password1.value != password2.value){
+                //document.querySelector('#errormessage').value = "パスワードが一致しておりません";
+                console.log("パスワードが一致しておりません");
+
+            }
+
+        },false);
     </script>
     <footer th:replace="~{Footer::Footer}"></footer>
 
