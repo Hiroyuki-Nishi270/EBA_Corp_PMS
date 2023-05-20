@@ -27,12 +27,12 @@ https://mdbootstrap.com/docs/standard/extended/login/
                         <label class="form-label" for="username">User name</label>
                     </div>
 
-                    <!-- Email input -->
+                    <!--使用中止Email input 
                     <div class="form-outline mb-4">
                         <input type="email" id="email" name="email" class="form-control" th:value="${email}">
                         <label class="form-label" for="email">Email address</label>
                     </div>
-
+                    -->
                     <!-- Password input -->
                     <div class="form-outline mb-4">
                         <input type="password" id="password1" name="password1" class="form-control">
@@ -55,6 +55,11 @@ https://mdbootstrap.com/docs/standard/extended/login/
             </div>
         </div>
     </form>
+    <script type="javascript">
+        <!-- ここに記載 -->
+        let password1 = getElementsbyName("password1");
+        console.log =password1.value;
+    </script>
     <footer th:replace="~{Footer::Footer}"></footer>
 
 

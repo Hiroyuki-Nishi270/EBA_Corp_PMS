@@ -41,7 +41,7 @@ public class MainController {
     String addMemberController(
             Model model,
             @RequestParam("username") String username,
-            @RequestParam("email") String email,
+            //@RequestParam("email") String email,
             @RequestParam("password1") String password1,
             @RequestParam("password2") String password2
             ){
@@ -50,9 +50,9 @@ public class MainController {
                 UserDetails s = userDetailsService.loadUserByUsername(username);
 
                 model.addAttribute("title","会員登録 | EBAtecPMS");
-                model.addAttribute("result","このメールアドレスは既に登録されております");
+                model.addAttribute("result","このユーザーは既に登録されております");
                 model.addAttribute("username",username);
-                model.addAttribute("email",email);
+                //model.addAttribute("email",email);
                 return "register";
 
             }catch (UsernameNotFoundException e){
@@ -66,7 +66,7 @@ public class MainController {
             model.addAttribute("title","会員登録 | EBAtecPMS");
             model.addAttribute("result","入力されたパスワードが一致しておりません");
             model.addAttribute("username",username);
-            model.addAttribute("email",email);
+            //model.addAttribute("email",email);
             return "register";
         }
     }
