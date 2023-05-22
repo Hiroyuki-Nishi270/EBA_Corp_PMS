@@ -53,32 +53,33 @@ public class MainController {
                                BindingResult bindingResult,
                                Model model
             ){
-        if(bindingResult.hasErrors()){
+        if(bindingResult.hasErrors()){//registerFormのバリデーション
             return "register";
-        }
-        if(form.getPassword1().equals(form.getPassword2())){
-            try {
-                UserDetails s = userDetailsService.loadUserByUsername(form.getUsername());
+        } else {
+            if (form.getPassword1().equals(form.getPassword2())){//入力されたpasswordが一致した
+                try {
+                    UserDetails s = userDetailsService.loadUserByUsername(form.getUsername());
 
+                    model.addAttribute("title","会員登録 | EBAtecPMS");
+                    model.addAttribute("result","このユーザーは既に登録されております");
+                    model.addAttribute("username",form.getUsername());
+                    //model.addAttribute("email",email);
+                    return "register";
+
+                }catch (UsernameNotFoundException e){
+                    userAction.createUser(form.getUsername(), form.getPassword1());
+
+                    model.addAttribute("result","会員登録に成功しました！");
+                    model.addAttribute("title","EBAtecPMS");
+                    return "index";
+                }
+            }else{
                 model.addAttribute("title","会員登録 | EBAtecPMS");
-                model.addAttribute("result","このユーザーは既に登録されております");
-                model.addAttribute("username",form.getUsername());
+                model.addAttribute("result","入力されたパスワードが一致しておりません");
+                model.addAttribute("username",form.getPassword1());
                 //model.addAttribute("email",email);
                 return "register";
-
-            }catch (UsernameNotFoundException e){
-                userAction.createUser(form.getUsername(), form.getPassword1());
-
-                model.addAttribute("result","会員登録に成功しました！");
-                model.addAttribute("title","EBAtecPMS");
-                return "index";
             }
-        }else{
-            model.addAttribute("title","会員登録 | EBAtecPMS");
-            model.addAttribute("result","入力されたパスワードが一致しておりません");
-            model.addAttribute("username",form.getPassword1());
-            //model.addAttribute("email",email);
-            return "register";
         }
     }
 }
