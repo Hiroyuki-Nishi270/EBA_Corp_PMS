@@ -6,13 +6,23 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
 public class MainController {
+
+    //registerForm用
+    @ModelAttribute
+    public registerForm setUpForm(){
+        return new registerForm();
+    }
+
     @Autowired
     UserDetailsService userDetailsService;
 
@@ -30,6 +40,7 @@ public class MainController {
 
     @GetMapping("register")
     String registerController(Model model){
+
         model.addAttribute("title","会員登録 | EBAtecPMS");
 
         System.out.println("registerController is called");
@@ -38,25 +49,25 @@ public class MainController {
     }
 
     @PostMapping("register")
-    String addMemberController(
-            Model model,
-            @RequestParam("username") String username,
-            //@RequestParam("email") String email,
-            @RequestParam("password1") String password1,
-            @RequestParam("password2") String password2
+    String addMemberController(@Validated registerForm form,
+                               BindingResult bindingResult,
+                               Model model
             ){
-        if(password1.equals(password2)){
+        if(bindingResult.hasErrors()){
+            return "register";
+        }
+        if(form.getPassword1().equals(form.getPassword2())){
             try {
-                UserDetails s = userDetailsService.loadUserByUsername(username);
+                UserDetails s = userDetailsService.loadUserByUsername(form.getUsername());
 
                 model.addAttribute("title","会員登録 | EBAtecPMS");
                 model.addAttribute("result","このユーザーは既に登録されております");
-                model.addAttribute("username",username);
+                model.addAttribute("username",form.getUsername());
                 //model.addAttribute("email",email);
                 return "register";
 
             }catch (UsernameNotFoundException e){
-                userAction.createUser(username, password1);
+                userAction.createUser(form.getUsername(), form.getPassword1());
 
                 model.addAttribute("result","会員登録に成功しました！");
                 model.addAttribute("title","EBAtecPMS");
@@ -65,7 +76,7 @@ public class MainController {
         }else{
             model.addAttribute("title","会員登録 | EBAtecPMS");
             model.addAttribute("result","入力されたパスワードが一致しておりません");
-            model.addAttribute("username",username);
+            model.addAttribute("username",form.getPassword1());
             //model.addAttribute("email",email);
             return "register";
         }
