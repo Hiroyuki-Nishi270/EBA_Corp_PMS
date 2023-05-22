@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MainController {
 
-    //registerForm用
+    //registerForm用form-backing bean
     @ModelAttribute
-    public registerForm setUpForm(){
+    public registerForm setUpRegisterForm(){
         return new registerForm();
     }
 
