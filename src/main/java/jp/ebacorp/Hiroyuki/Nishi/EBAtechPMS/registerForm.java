@@ -13,6 +13,9 @@ public class registerForm {
 
     @NotNull(message = "パスワードが空欄です")
     @Length(min = 1, max = 32, message = "３２文字以内に納めてください")
-    private String password;
+    private String password1;
 
+    @NotNull(message = "パスワードが空欄です")
+    @Length(min = 1, max = 32, message = "３２文字以内に納めてください")
+    private String password2;
 }
