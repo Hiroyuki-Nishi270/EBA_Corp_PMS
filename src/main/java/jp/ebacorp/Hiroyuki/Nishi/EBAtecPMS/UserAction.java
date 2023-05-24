@@ -1,4 +1,4 @@
-package jp.ebacorp.Hiroyuki.Nishi.EBAtechPMS;
+package jp.ebacorp.Hiroyuki.Nishi.EBAtecPMS;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;

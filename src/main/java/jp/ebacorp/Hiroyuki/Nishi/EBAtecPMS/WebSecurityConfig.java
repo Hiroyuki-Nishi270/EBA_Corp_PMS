@@ -1,4 +1,4 @@
-package jp.ebacorp.Hiroyuki.Nishi.EBAtechPMS;
+package jp.ebacorp.Hiroyuki.Nishi.EBAtecPMS;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

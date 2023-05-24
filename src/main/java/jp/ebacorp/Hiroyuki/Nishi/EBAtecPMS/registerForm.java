@@ -1,4 +1,4 @@
-package jp.ebacorp.Hiroyuki.Nishi.EBAtechPMS;
+package jp.ebacorp.Hiroyuki.Nishi.EBAtecPMS;
 
 
 import jakarta.validation.constraints.Pattern;
@@ -13,5 +13,6 @@ public class registerForm {
     @Pattern(regexp = "(?=.*[A-Z])(?=.*[.?/-])(?=.*[a-z])[a-zA-Z0-9.?/-]{8,24}")
     private String password1;
 
+    @Pattern(regexp = "(?=.*[A-Z])(?=.*[.?/-])(?=.*[a-z])[a-zA-Z0-9.?/-]{8,24}")
     private String password2;
 }

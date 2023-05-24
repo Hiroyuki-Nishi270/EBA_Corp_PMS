@@ -17,9 +17,12 @@ https://mdbootstrap.com/docs/standard/extended/login/
                 <div class="col-6">
                     <!--Message from BE -->
                     <div class="form-outline mb-4">
-                        <div th:if="${result != null}">
+                        <!--<div th:if="${result != null}">
                             <p th:text="${result}"></p>
-                        </div>
+                        </div> -->
+                        <ul th:if="${result != null}">
+                            <li th:text="${result}"></li>
+                        </ul>
                         <ul th:if="${#fields.hasErrors('*')}">
                             <li th:each="err:${#fields.errors('*')}" th:text="${err}">
                             </li>
@@ -55,7 +58,7 @@ https://mdbootstrap.com/docs/standard/extended/login/
                         <ui>
                             <li>少なくとも１文字以上の英字の大文字</li>
                             <li>少なくとも１文字以上の英字の小文字</li>
-                            <li>少なくとも１文字以上の記号</li>
+                            <li>少なくとも１文字以上の記号(.?/-)</li>
                             <li>8文字以上24文字以下</li>
                         </ui>
                     </div>
