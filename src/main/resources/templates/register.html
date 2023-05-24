@@ -27,8 +27,8 @@ https://mdbootstrap.com/docs/standard/extended/login/
                     </div>
                     <!--User name input -->
                     <div class="form-outline mb-4">
-                        <input type="text" id="username" name="username" class="form-control" th:field="*{username}" th:value="${username}">
-                        <label class="form-label" for="username">User name</label>
+                        <input type="text" id="username" name="username" class="form-control" th:field="*{username}" th:value="${username}" pattern="[0-9a-zA-Z]{1,32}">
+                        <label class="form-label" for="username">ユーザー名(１文字以上３２文字以内の英数字)</label>
                     </div>
 
                     <!--使用中止Email input 
@@ -39,20 +39,30 @@ https://mdbootstrap.com/docs/standard/extended/login/
                     -->
                     <!-- Password input -->
                     <div class="form-outline mb-4">
-                        <input type="password" id="password1" name="password1" class="form-control" th:field="*{password1}">
-                        <label class="form-label" for="password1">Input Password</label>
+                        <input type="password" id="password1" name="password1" class="form-control" pattern="(?=.*[A-Z])(?=.*[.?/-])(?=.*[a-z])[a-zA-Z0-9.?/-]{8,24}" th:field="*{password1}">
+                        <label class="form-label" for="password1">パスワード(１文字以上３２文字以内英数字)</label>
                     </div>
 
                     <!-- Password input again-->
                     <div class="form-outline mb-4">
-                        <input type="password" id="password2" name="password2" class="form-control" th:field="*{password2}">
-                        <label class="form-label" for="password2">Input Password again</label>
+                        <input type="password" id="password2" name="password2" class="form-control" pattern="(?=.*[A-Z])(?=.*[.?/-])(?=.*[a-z])[a-zA-Z0-9.?/-]{8,24}" th:field="*{password2}">
+                        <label class="form-label" for="password2">パスワード(上のパスワードをもう一度入力してください)</label>
                         <span id="errormessage"></span>
+                    </div>
+                    <!-- -->
+                    <div class="form-outline mb-4">
+                        <p>パスワードは以下の条件を全て満たしてください</p>
+                        <ui>
+                            <li>少なくとも１文字以上の英字の大文字</li>
+                            <li>少なくとも１文字以上の英字の小文字</li>
+                            <li>少なくとも１文字以上の記号</li>
+                            <li>8文字以上24文字以下</li>
+                        </ui>
                     </div>
 
                     <!-- Submit button -->
                     <!-- <input type="submit" class="btn btn-primary btn-block mb-4" value="Register"></input> -->
-                    <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+                    <button type="submit" class="btn btn-primary btn-block mb-4">登録</button>
 
                 </div>
                 <div class="col">
