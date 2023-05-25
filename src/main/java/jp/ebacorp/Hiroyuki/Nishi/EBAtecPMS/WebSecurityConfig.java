@@ -1,5 +1,6 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAtecPMS;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,21 +17,32 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+    /**
+     * プロパティ
+     */
+    @Autowired
+    Properties properties;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/","register","/addmember").permitAll()
+                        .requestMatchers(
+                                properties.getPageDefault(),
+                                properties.getPageIndex(),
+                                properties.getPageRegister()
+                                ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/")
+                        .loginPage(properties.getPageDefault())
                         .permitAll()
                 )
                 .logout((logout) -> logout.permitAll());
 
         return http.build();
     }
+
 
     @Bean
     public UserDetailsService userDetailsService (DataSource datasource) {
@@ -39,7 +51,7 @@ public class WebSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder () {
-        return new BCryptPasswordEncoder(16);
+        return new BCryptPasswordEncoder(properties.getStrength());
     }
 
 
