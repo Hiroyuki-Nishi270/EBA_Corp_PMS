@@ -23,17 +23,10 @@ public class addMemberService {
     @Autowired
     UserAction userAction;
 
-    @Autowired
-    inputFormValidator inputFormValidator;
-    @InitBinder("registerForm")
-    public void initBinder(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(inputFormValidator);
-    }
-
-    public String execute(@Validated inputForm form,
-                          BindingResult bindingResult,
+    //バリデーションをパスした後の処理
+    //戻り値にページ名を返す
+    public String execute(inputForm form,
                           Model model){
-
         try {
             UserDetails s = userDetailsService.loadUserByUsername(form.getUsername());
 

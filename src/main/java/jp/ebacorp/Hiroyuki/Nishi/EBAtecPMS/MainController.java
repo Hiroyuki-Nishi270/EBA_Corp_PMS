@@ -28,15 +28,6 @@ public class MainController {
         return new inputForm();
     }
 
-    //registerForm用のValidator
-    @Autowired
-    inputFormValidator inputFormValidator;
-
-    @InitBinder("registerForm")
-    public void initBinder(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(inputFormValidator);
-    }
-
     @Autowired
     UserDetailsService userDetailsService;
 
@@ -67,57 +58,13 @@ public class MainController {
                        BindingResult bindingResult,
                        Model model){
         if(name.equals(properties.getPageRegister())){
-
-            //register
-            if(bindingResult.hasErrors()){//registerFormのバリデーション
-
-                return addMemberService.execute(form, bindingResult, model);
-            } else {
-                try {
-                    UserDetails s = userDetailsService.loadUserByUsername(form.getUsername());
-
-                    model.addAttribute("title","会員登録 | EBAtecPMS");
-                    model.addAttribute("result","このユーザーは既に登録されております");
-                    model.addAttribute("username",form.getUsername());
-                    //model.addAttribute("email",email);
-                    return "register";
-
-                }catch (UsernameNotFoundException e){
-                    userAction.createUser(form.getUsername(), form.getPassword1());
-
-                    model.addAttribute("result","会員登録に成功しました！");
-                    model.addAttribute("title","EBAtecPMS");
-                    return "index";
-                }
+            //会員登録処理
+            if(bindingResult.hasErrors()){//registerFormのバリデーションで不合格
+                return properties.getPageRegister();
+            } else {//バリデーションで合格
+                return addMemberService.execute(form, model);
             }
         }
-        return null;
     }
-    /**
-    @PostMapping("register")
-    String addMemberController(@Validated registerForm form,
-                               BindingResult bindingResult,
-                               Model model
-            ){
-        if(bindingResult.hasErrors()){//registerFormのバリデーション
-            return "register";
-        } else {
-            try {
-                UserDetails s = userDetailsService.loadUserByUsername(form.getUsername());
 
-                model.addAttribute("title","会員登録 | EBAtecPMS");
-                model.addAttribute("result","このユーザーは既に登録されております");
-                model.addAttribute("username",form.getUsername());
-                //model.addAttribute("email",email);
-                return "register";
-
-            }catch (UsernameNotFoundException e){
-                userAction.createUser(form.getUsername(), form.getPassword1());
-
-                model.addAttribute("result","会員登録に成功しました！");
-                model.addAttribute("title","EBAtecPMS");
-                return "index";
-            }
-        }
-    }**/
 }
