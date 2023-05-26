@@ -65,6 +65,7 @@ public class MainController {
                 return addMemberService.execute(form, model);
             }
         }
+        return properties.getPageDefault();
     }
 
 }
