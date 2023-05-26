@@ -17,25 +17,19 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    /**
-     * プロパティ
-     */
-    @Autowired
-    Properties properties;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(
-                                properties.getPageDefault(),
-                                properties.getPageIndex(),
-                                properties.getPageRegister()
+                                "/",
+                                "index",
+                                "register"
                                 ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage(properties.getPageDefault())
+                        .loginPage("/")
                         .permitAll()
                 )
                 .logout((logout) -> logout.permitAll());
@@ -51,7 +45,7 @@ public class WebSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder () {
-        return new BCryptPasswordEncoder(properties.getStrength());
+        return new BCryptPasswordEncoder(16);
     }
 
 

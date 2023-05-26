@@ -1,5 +1,5 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAtecPMS;
-
+/**
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +29,14 @@ public class Properties {
     @Value("${model.attribute.title.value.register}")
     private String registerTitle;
 
+    @Value("${model.attribute.addMemberService.result.name}")
+    private String addMemberServiceResultName;
+
+    @Value("${model.attribute.addMemberService.result.value}")
+    private String addMemberServiceResultValue;
+
     @Value("${password.strength}")//パスワード強度
     private int strength;
 
 }
+**/

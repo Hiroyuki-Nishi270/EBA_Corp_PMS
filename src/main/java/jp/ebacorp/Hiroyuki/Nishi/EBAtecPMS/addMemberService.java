@@ -11,9 +11,6 @@ import org.springframework.ui.Model;
 public class addMemberService {
 
     @Autowired
-    Properties properties;
-
-    @Autowired
     UserDetailsService userDetailsService;
 
     @Autowired
@@ -26,18 +23,18 @@ public class addMemberService {
         try {
             UserDetails s = userDetailsService.loadUserByUsername(form.getUsername());
 
-            model.addAttribute(properties.getTitleName(),properties.getRegisterTitle());
             model.addAttribute("result","このユーザーは既に登録されております");
+            model.addAttribute("title","会員登録 | EBAtecPMS");
             model.addAttribute("username",form.getUsername());
             //model.addAttribute("email",email);
-            return properties.getPageRegister();
+            return "register";
 
         }catch (UsernameNotFoundException e){
             userAction.createUser(form.getUsername(), form.getPassword1());
 
             model.addAttribute("result","会員登録に成功しました！");
             model.addAttribute("title","EBAtecPMS");
-            return properties.getPageIndex();
+            return "index";
         }
     }
 
