@@ -31,4 +31,5 @@ public class Properties {
 
     @Value("${password.strength}")//パスワード強度
     private int strength;
+
 }

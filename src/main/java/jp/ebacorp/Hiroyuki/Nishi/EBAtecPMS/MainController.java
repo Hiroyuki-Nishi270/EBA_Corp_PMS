@@ -28,22 +28,15 @@ public class MainController {
         return new inputForm();
     }
 
-    @Autowired
-    UserDetailsService userDetailsService;
-
-    @Autowired
-    UserAction userAction;
-
     @GetMapping("{name}")
     String getMapping(@PathVariable String name, Model model){
         System.out.println("name is "+name);
         if(name.equals(properties.getPageRegister())){
             model.addAttribute(properties.getTitleName(),properties.getRegisterTitle());
-            return name;
         }else{
             model.addAttribute(properties.getTitleName(),properties.getDefaultTitle());
-            return name;
         }
+        return name;
     }
 
     //"/"の先に文字列がないアドレスに飛んだ時用(妥協)
