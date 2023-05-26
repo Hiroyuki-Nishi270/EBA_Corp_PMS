@@ -24,13 +24,13 @@ public class addMemberService {
     UserAction userAction;
 
     @Autowired
-    registerFormValidator registerFormValidator;
+    inputFormValidator inputFormValidator;
     @InitBinder("registerForm")
     public void initBinder(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(registerFormValidator);
+        webDataBinder.addValidators(inputFormValidator);
     }
 
-    public String execute(@Validated registerForm form,
+    public String execute(@Validated inputForm form,
                           BindingResult bindingResult,
                           Model model){
 

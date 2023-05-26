@@ -11,8 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.Binding;
-
 
 @Controller
 public class MainController {
@@ -21,19 +19,22 @@ public class MainController {
     @Autowired
     Properties properties;
 
+    @Autowired
+    addMemberService addMemberService;
+
     //registerForm用form-backing bean
     @ModelAttribute
-    public registerForm setUpRegisterForm(){
-        return new registerForm();
+    public inputForm setUpRegisterForm(){
+        return new inputForm();
     }
 
     //registerForm用のValidator
     @Autowired
-    registerFormValidator registerFormValidator;
+    inputFormValidator inputFormValidator;
 
     @InitBinder("registerForm")
     public void initBinder(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(registerFormValidator);
+        webDataBinder.addValidators(inputFormValidator);
     }
 
     @Autowired
@@ -62,14 +63,15 @@ public class MainController {
 
     @PostMapping("{name}")
     String postMapping(@PathVariable String name,
-                       @Validated registerForm form,
+                       @Validated inputForm form,
                        BindingResult bindingResult,
                        Model model){
         if(name.equals(properties.getPageRegister())){
 
-
+            //register
             if(bindingResult.hasErrors()){//registerFormのバリデーション
-                return "register";
+
+                return addMemberService.execute(form, bindingResult, model);
             } else {
                 try {
                     UserDetails s = userDetailsService.loadUserByUsername(form.getUsername());
