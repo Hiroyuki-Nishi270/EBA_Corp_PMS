@@ -1,4 +1,4 @@
-package jp.ebacorp.Hiroyuki.Nishi.EBAtecPMS;
+package jp.ebacorp.Hiroyuki.Nishi.EBAtecPMS.Old;
 /**
 
 import lombok.Getter;

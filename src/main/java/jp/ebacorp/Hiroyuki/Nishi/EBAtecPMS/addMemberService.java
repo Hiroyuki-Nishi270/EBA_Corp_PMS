@@ -16,8 +16,13 @@ public class addMemberService {
     @Autowired
     UserAction userAction;
 
-    //バリデーションをパスした後の処理
-    //戻り値にページ名を返す
+    /**
+     * バリデーションをパスした後の処理
+     * @param form 会員登録のform
+     * @param model model
+     * @return ページ名
+     *
+     */
     public String execute(inputForm form,
                           Model model){
         try {
@@ -26,7 +31,6 @@ public class addMemberService {
             model.addAttribute("result","このユーザーは既に登録されております");
             model.addAttribute("title","会員登録 | EBAtecPMS");
             model.addAttribute("username",form.getUsername());
-            //model.addAttribute("email",email);
             return "register";
 
         }catch (UsernameNotFoundException e){

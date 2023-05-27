@@ -37,27 +37,19 @@ public class MainController {
         return "redirect:index";
     }
 
-    @PostMapping("{name}")
-    String postMapping(@PathVariable String name,
-                       @Validated inputForm form,
+
+    /**
+     * 会員登録のエンドポイント
+     */
+    @PostMapping("register")
+    String registerMapping (@Validated inputForm form,
                        BindingResult bindingResult,
                        Model model){
-        /**
-         * 会員登録のエンドポイント
-         */
-        if(name.equals("register")){
-            //会員登録処理
-            if(bindingResult.hasErrors()){//registerFormのバリデーションで不合格
-                return "register";
-            } else {//バリデーションで合格
-                return addMemberService.execute(form, model);
-            }
+        if(bindingResult.hasErrors()){//registerFormのバリデーションで不合格
+            return "register";
+        } else {//バリデーションで合格
+            return addMemberService.execute(form, model);
         }
-
-        /**
-         * デフォルトのエンドポイント
-         */
-        return "index";
     }
 
 }
