@@ -24,8 +24,6 @@ public class UserAction {
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
 
         users.createUser(user);
-        //System.out.println("raw:" + password1);
-        //System.out.println("encorded:" + pw );
-        //System.out.println("decorded:" + (encoder.matches(password1,pw)));
+
     }
 }

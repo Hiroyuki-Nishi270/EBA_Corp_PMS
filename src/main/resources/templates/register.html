@@ -30,25 +30,19 @@ https://mdbootstrap.com/docs/standard/extended/login/
                     </div>
                     <!--User name input -->
                     <div class="form-outline mb-4">
-                        <input type="text" id="username" name="username" class="form-control" th:field="*{username}" th:value="${username}"><!--pattern="[0-9a-zA-Z]{1,32}" -->
+                        <input type="text" id="username" name="username" class="form-control" th:field="*{username}" required pattern="[0-9a-zA-Z]{1,32}" th:value="${username}"><!-- -->
                         <label class="form-label" for="username">ユーザー名(１文字以上３２文字以内の英数字)</label>
                     </div>
 
-                    <!--使用中止Email input 
-                    <div class="form-outline mb-4">
-                        <input type="email" id="email" name="email" class="form-control" th:value="${email}">
-                        <label class="form-label" for="email">Email address</label>
-                    </div>
-                    -->
                     <!-- Password input -->
                     <div class="form-outline mb-4">
-                        <input type="password" id="password1" name="password1" class="form-control" th:field="*{password1}"><!-- pattern="(?=.*[A-Z])(?=.*[.?/-])(?=.*[a-z])[a-zA-Z0-9.?/-]{8,24}"-->
+                        <input type="password" id="password1" name="password1" class="form-control" required pattern="(?=.*[A-Z])(?=.*[.?/-])(?=.*[a-z])[a-zA-Z0-9.?/-]{8,24}" th:field="*{password1}"><!-- -->
                         <label class="form-label" for="password1">パスワード(１文字以上３２文字以内英数字)</label>
                     </div>
 
                     <!-- Password input again-->
                     <div class="form-outline mb-4">
-                        <input type="password" id="password2" name="password2" class="form-control" th:field="*{password2}"><!-- pattern="(?=.*[A-Z])(?=.*[.?/-])(?=.*[a-z])[a-zA-Z0-9.?/-]{8,24}"-->
+                        <input type="password" id="password2" name="password2" class="form-control" required th:field="*{password2}"><!-- pattern="(?=.*[A-Z])(?=.*[.?/-])(?=.*[a-z])[a-zA-Z0-9.?/-]{8,24}"-->
                         <label class="form-label" for="password2">パスワード(上のパスワードをもう一度入力してください)</label>
                         <span id="errormessage"></span>
                     </div>
@@ -74,21 +68,6 @@ https://mdbootstrap.com/docs/standard/extended/login/
         </div>
     </form>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.11/dist/vue.js"></script>
-    <script type="text/javascript">
-        <!-- ここに記載 -->
-        let password1 = document.querySelector('#password1');
-        let password2 = document.querySelector('#password2');
-        let errormessage = document.querySelector('#errormessage');
-
-        password2.addEventListener('change',function(){
-            if(password1.value != password2.value){
-                //document.querySelector('#errormessage').value = "パスワードが一致しておりません";
-                console.log("パスワードが一致しておりません");
-
-            }
-
-        },false);
-    </script>
     <footer th:replace="~{Footer::Footer}"></footer>
 
 

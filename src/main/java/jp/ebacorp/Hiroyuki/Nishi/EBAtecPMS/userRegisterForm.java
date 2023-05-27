@@ -17,7 +17,6 @@ public class userRegisterForm {
 
     @AssertTrue(message = "入力された２つのパスワードが一致しておりません。")
     public boolean isSamePassword(){
-        System.out.println("notDifferentPassword");
         if(this.password1.equals(this.password2)){
             return true;
         }else{
