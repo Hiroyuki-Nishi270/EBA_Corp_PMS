@@ -1,4 +1,4 @@
-package jp.ebacorp.Hiroyuki.Nishi.EBAtecPMS;
+package jp.ebacorp.Hiroyuki.Nishi.EBAtecPMS.User;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Pattern;

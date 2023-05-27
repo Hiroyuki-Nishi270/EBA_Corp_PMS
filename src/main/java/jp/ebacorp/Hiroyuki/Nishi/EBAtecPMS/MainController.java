@@ -1,5 +1,7 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAtecPMS;
 
+import jp.ebacorp.Hiroyuki.Nishi.EBAtecPMS.User.addUserService;
+import jp.ebacorp.Hiroyuki.Nishi.EBAtecPMS.User.userRegisterForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class MainController {
 
     @Autowired
-    addMemberService addMemberService;
+    addUserService addUserService;
 
     //registerForm用form-backing bean
     @ModelAttribute
@@ -48,7 +50,7 @@ public class MainController {
         if(bindingResult.hasErrors()){//registerFormのバリデーションで不合格
             return "register";
         } else {//バリデーションで合格
-            return addMemberService.execute(form, model);
+            return addUserService.execute(form, model);
         }
     }
 
