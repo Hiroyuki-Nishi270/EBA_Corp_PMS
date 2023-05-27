@@ -16,8 +16,8 @@ public class MainController {
 
     //registerForm用form-backing bean
     @ModelAttribute
-    public inputForm setUpRegisterForm(){
-        return new inputForm();
+    public userRegisterForm setUpRegisterForm(){
+        return new userRegisterForm();
     }
 
     @GetMapping("{name}")
@@ -42,7 +42,7 @@ public class MainController {
      * 会員登録のエンドポイント
      */
     @PostMapping("register")
-    String registerMapping (@Validated inputForm form,
+    String registerMapping (@Validated userRegisterForm form,
                        BindingResult bindingResult,
                        Model model){
         if(bindingResult.hasErrors()){//registerFormのバリデーションで不合格

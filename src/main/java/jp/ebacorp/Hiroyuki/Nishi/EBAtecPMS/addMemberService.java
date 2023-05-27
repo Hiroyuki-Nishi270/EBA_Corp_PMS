@@ -23,7 +23,7 @@ public class addMemberService {
      * @return ページ名
      *
      */
-    public String execute(inputForm form,
+    public String execute(userRegisterForm form,
                           Model model){
         try {
             UserDetails s = userDetailsService.loadUserByUsername(form.getUsername());
