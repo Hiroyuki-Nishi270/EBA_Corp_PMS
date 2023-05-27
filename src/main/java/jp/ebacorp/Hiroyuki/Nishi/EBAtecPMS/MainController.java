@@ -42,6 +42,9 @@ public class MainController {
                        @Validated inputForm form,
                        BindingResult bindingResult,
                        Model model){
+        /**
+         * 会員登録のエンドポイント
+         */
         if(name.equals("register")){
             //会員登録処理
             if(bindingResult.hasErrors()){//registerFormのバリデーションで不合格
@@ -50,6 +53,10 @@ public class MainController {
                 return addMemberService.execute(form, model);
             }
         }
+
+        /**
+         * デフォルトのエンドポイント
+         */
         return "index";
     }
 
