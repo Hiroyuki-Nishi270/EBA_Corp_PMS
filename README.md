@@ -1,4 +1,4 @@
-# EBAtecPMS
+# EBACorpPMS
 EBAテックの進捗管理システムの宿題
 
 ## 長野さんからの宿題内容
