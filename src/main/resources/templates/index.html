@@ -6,10 +6,68 @@
 </head>
 <body>
 <H1>index.html</H1>
-
+<!--ログアウト-->
 <form class="form-signin" method="post" th:action="@{/logout}">
-  <h2 class="form-signin-heading">Are you sure you want to log out?</h2>
+  <!--<h2 class="form-signin-heading">Are you sure you want to log out?</h2>-->
   <button class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
 </form>
+<!--タスク入力フォーム-->
+<!--工事中
+<form method="get" th:action="@{/newtask}">
+    <button class="btn btn-lg btn-primary btn-block" type="submit">新規タスク作成</button>
+</form>
+-->
+<!--ガントチャート-->
+<H2>現在のタスク</H2>
+<form action="/add">
+    <!---->
+    <label>概要</label>
+    <input name="task" type="text" maxlength="255"/>
+
+    <label>期限</label>
+    <input name="deadline" type="date" />
+    <input type="submit" vaule="登録" />
+</form>
+<!--タスクリスト-->
+<!--
+<H2>残タスク</H2>
+<table>
+<thead>
+<tr>
+    <th>ID</th>
+    <th>タスク概要</th>
+    <th>期限</th>
+    <th>状態</th>
+    <th>関連チケット</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="task : ${taskList}">
+    <td class="hidden" th:text="${task.id}"></td>
+    <td th:text="${task.task}"></td>
+    <td width="100px" th:text="${task.deadline}"></td>
+    <td width="50px" th:text="${task.done} ? '完了': '未完了'"></td>
+    <td width="50px">
+        <button type="submit" id="update_button" onclick="
+                            let row = this.parentElement.parentElement;
+                            getElementById('update_id').value=row.cells[0].firstChild.data;
+                            getElementById('update_task').value=row.cells[1].firstChild.data;
+                            getElementById('update_deadline').value=row.cells[2].firstChild.data;
+                            getElementById('update_status').selectedIndex=(row.cells[3].firstChild.data=='完了')?1:0;
+                            var dialog = getElementById('updateDialog');
+                            dialog.style.left = ((window.innerWidth - 500) / 2) + 'px';
+                            dialog.style.display = 'block';
+                        ">更新</button>
+    </td>
+    <td width="50px">
+        <form action="/delete">
+            <button type="submit" id="delete_button">削除</button>
+            <input type="hidden" name="id" th:value="${task.id}" />
+        </form>
+    </td>
+</tr>
+</tbody>
+</table>
+-->
 </body>
 </html>

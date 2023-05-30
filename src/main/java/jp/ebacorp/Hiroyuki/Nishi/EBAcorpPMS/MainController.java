@@ -44,7 +44,7 @@ public class MainController {
             return "signup";
         } else{
             JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-            if(users.userExists(signupForm.getUsername()) == true){
+            if(users.userExists(signupForm.getUsername())){
                 System.out.println("Already exist");
                 model.addAttribute("signupError", "ユーザー名 " + signupForm.getUsername() + "は既に登録されています");
                 return "signup";
@@ -65,4 +65,8 @@ public class MainController {
             }
         }
     }
+
+    @GetMapping("/newtask")
+    public String getNewTask(){
+        return "index";}
 }
