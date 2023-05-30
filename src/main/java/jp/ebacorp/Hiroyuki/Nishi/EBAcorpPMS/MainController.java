@@ -20,7 +20,6 @@ public class MainController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
-
     @Autowired
     DataSource dataSource;
     @GetMapping
@@ -40,15 +39,12 @@ public class MainController {
     public String postSignUp(@Validated SignupForm signupForm,
                          BindingResult bindingResult,
                          Model model) {
-        if (bindingResult.hasErrors()) {
-            return "signup";
-        } else{
+        if (!bindingResult.hasErrors()) {
             JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-            if(users.userExists(signupForm.getUsername())){
+            if (users.userExists(signupForm.getUsername())) {
                 System.out.println("Already exist");
                 model.addAttribute("signupError", "ユーザー名 " + signupForm.getUsername() + "は既に登録されています");
-                return "signup";
-            }else{
+            } else {
                 UserDetails newUser = User.builder()
                         .username(signupForm.getUsername())
                         .password(passwordEncoder.encode(signupForm.getPassword1()))
@@ -58,12 +54,12 @@ public class MainController {
                     users.createUser(newUser);
                     model.addAttribute("message", "ユーザー登録に成功しました。");
                     return "login";
-                }catch(DataAccessException e){
+                } catch (DataAccessException e) {
                     model.addAttribute("signupError", "ユーザー登録に失敗しました。");
                 }
-                return "signup";
             }
         }
+        return "signup";
     }
 
     @GetMapping("/newtask")
