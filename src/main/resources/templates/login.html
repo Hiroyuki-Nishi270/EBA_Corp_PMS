@@ -17,6 +17,9 @@
   <div th:if="${param.logout}">
     ログアウトしました
   </div>
+  <div th:if="${message != null}" th:text="${message}">
+  </div>
+
   <label for="username">ユーザー名</label>
   <input type="text" id="username" name="username"><br>
   <label for="password">パスワード</label>
