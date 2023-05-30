@@ -7,12 +7,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="EBAtecPMS" />
+        <module name="EBAcorpPMS" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="EBAtecPMS" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="EBAcorpPMS" options="-parameters" />
       <module name="EBAtecPMS" options="-parameters" />
     </option>
   </component>
