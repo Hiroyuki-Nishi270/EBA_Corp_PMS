@@ -1,31 +1,28 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
 
-import jakarta.validation.constraints.Pattern;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Data;
-import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 @Data
+@Entity
 public class TaskForm {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     //概要
-    @Range(min = 1, max = 255)
+    @Length(min = 1, max = 255)
     private String overview;
 
-    //詳細
-    @Range(min = 1, max = 65535)
-    private String detail;
-
     //期限
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date deadline;
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
+    //private Date deadline;
 
-    //状態
-    //検討中
-    private int Status;
-
-    //前チケット
-    @Pattern(regexp = "[0-9,]*")
-    private String reference;
 }
