@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class SignupForm {
 
-    @Pattern(regexp = "[0-9a-zA-Z]{1,32}", message ="ユーザー名は半角英数字で３２文字以内で設定してください")
+    @Pattern(regexp = "[0-9A-Z]{1,32}", message ="ユーザー名は半角英数字かつ大文字で３２文字以内で設定してください")
     private String username;
 
     @Pattern(regexp = "(?=.*[A-Z])(?=.*[.?/-])(?=.*[a-z])[a-zA-Z0-9.?/-]{8,24}",
