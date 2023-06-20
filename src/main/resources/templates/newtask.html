@@ -6,24 +6,35 @@
 </head>
 <body>
 <h2 class="heading">新しいタスク</h2>
+<div th:if="${message != null}" th:text="${message}"></div>
 <form method="post" th:action="@{/newtask}" th:object="${taskForm}">
     <label for="task_name">タスク名</label>
-    <input type="text" id="task_name" name="task_name" th:value="${taskForm.name}" minlength="1" maxlength="255" title="１文字以上255文字以内に納めてください"><br>
-    <!--<div th:if="${#fields.hasErrors('username')}" th:errors="${signupForm.username}" style="color:red;"></div>-->
+    <input type="text" id="task_name" name="name" required th:value="${taskForm.name}" maxlength="255"><br>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="${taskForm.name}" style="color:red;"></div>
+
     <label for="task_detail">タスク内容</label>
-    <input type="text" id="task_detail" name="task_detail" th:value="${taskForm.detail}" maxlength="65535" title="65535文字以内に納めてください"><br>
+    <textarea id="task_detail" name="detail" th:value="${taskForm.detail}" maxlength="65535" title="65535文字以内に納めてください"></textarea>
+    <!--<input type="text" id="task_detail" name="detail" th:value="${taskForm.detail}" maxlength="65535" title="65535文字以内に納めてください">--><br>
+    <div th:if="${#fields.hasErrors('detail')}" th:errors="${taskForm.detail}" style="color:red;"></div>
+
     <label for="task_progress">進捗</label>
-    <input type="number" id="task_progress" name="task_progress" th:value="${taskForm.progress}" min="0" max="100" step="10" title="0~100の10刻みで入力可能です"><br>
+    <input type="number" id="task_progress" name="progress" th:value="${taskForm.progress == null}? '0':${taskForm.progress}" min="0" max="100" step="10"required><br>
+    <div th:if="${#fields.hasErrors('progress')}" th:errors="${taskForm.progress}" style="color:red;"></div>
+
 <!--Dependancies（後に回す）
     <label for="task_dependancies">先行タスク</label>
     <input type="number" id="task_dependancies" name="task_dependancies" th:value="${TaskForm.dependancies}" title="0~100の10刻みで入力可能です"><br>
 -->
     <label for="task_start">開始日</label>
-    <input type="date" id="task_start" name="task_start" th:value="${taskForm.start}"><br>
+    <input type="date" id="task_start" name="start" th:value="${taskForm.start}" required><br>
+    <div th:if="${#fields.hasErrors('start')}" th:errors="${taskForm.start}" style="color:red;"></div>
+
     <label for="task_end">終了日</label>
-    <input type="date" id="task_end" name="task_end" th:value="${taskForm.end}"><br>
+    <input type="date" id="task_end" name="end" th:value="${taskForm.end}" required><br>
+    <div th:if="${#fields.hasErrors('end')}" th:errors="${taskForm.end}" style="color:red;"></div>
     <!-- -->
     <button type="submit">登録</button>
+    <a href="/">戻る</a>
 </form>
 </body>
 </html>

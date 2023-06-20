@@ -75,6 +75,25 @@ public class MainController {
 
     @GetMapping("/newtask")
     public String getNewTask(TaskForm taskForm){
+        System.out.println(taskForm);
         return "newtask";
     }
+
+    @PostMapping("/newtask")
+    public String postNewTask(@Validated TaskForm taskForm,
+                           BindingResult bindingResult,
+                           Model model){
+        System.out.println(bindingResult.hasErrors());
+        if (!bindingResult.hasErrors()) {
+            System.out.println("No validation error");
+            try{
+                System.out.println(taskForm);
+                TaskFormRepository.save(taskForm);
+                model.addAttribute("message", "タスク登録に成功しました");
+            }catch(Exception e){
+                model.addAttribute("message", "タスク登録に失敗しました");
+            }
+        }
+        return "newtask";
+    };
 }
