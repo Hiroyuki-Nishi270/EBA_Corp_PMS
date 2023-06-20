@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -20,10 +21,20 @@ public class MainController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired CRUDTaskFormRepository TaskFormRepository;
+
     @Autowired
     DataSource dataSource;
     @GetMapping
-    String getIndex(){return "index";}
+    String getIndex(Model model){
+        List<TaskForm> TaskList = (List<TaskForm>) TaskFormRepository.findAll();
+        System.out.println(TaskList);
+
+        model.addAttribute("taskTest",TaskList);
+        model.addAttribute("JSFS", "JavascriptFromSpring");
+        return "index";
+    }
 
     @GetMapping("/login")
     public String getLogin() {
@@ -63,6 +74,7 @@ public class MainController {
     }
 
     @GetMapping("/newtask")
-    public String getNewTask(){
-        return "index";}
+    public String getNewTask(TaskForm taskForm){
+        return "newtask";
+    }
 }
