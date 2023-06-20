@@ -3,14 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
+    <style>
+		body {
+			font-family: sans-serif;
+			background: #ccc;
+		}
+		.container {
+			width: 80%;
+			margin: 0 auto;
+		}
+		/* custom class */
+		.gantt .bar-milestone .bar {
+			fill: tomato;
+		}
+		.heading {
+			text-align: center;
+		}
+	</style>
+    <link rel="stylesheet" th:href="@{/css/frappe-gantt.css}" />
+    <script th:src="@{/js/frappe-gantt.js}"></script>
 </head>
 <body>
 <H1>index.html</H1>
 <!--ログアウト-->
 <form class="form-signin" method="post" th:action="@{/logout}">
-  <!--<h2 class="form-signin-heading">Are you sure you want to log out?</h2>-->
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
+  <button id="logout-button" class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
 </form>
+<a th:href="@{/newtask}" id="newtask">新しいタスク</a>
+
+<!--タスクリスト -->
+<table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>overview</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="task : ${taskTest}">
+            <td th:text="${task.id}"></td>
+            <td th:text="${task.overview}"></td>
+        </tr>
+    </tbody>
+</table>
+<!--ガントチャート-->
+<div class="container">
+    <h2 class="heading">Interactive Gantt Chart entirely made in SVG!</h2>
+    <!-- Gantt Chart本体-->
+    <div class="gantt-target"></div>
+</div>
+<div id="view_mode_buttons" class="mx-auto mt-3 btn-group" role="group">
+    <button id="view_mode_d" type="button" class="btn btn-sm btn-light">Day</button>
+    <button id="view_mode_w" type="button" class="btn btn-sm btn-light">Week</button>
+    <button id="view_mode_m" type="button" class="btn btn-sm btn-light">Month</button>
+</div>
+<button id="resetGantt" type="reset" class="btn btn-sm btn-light">Reset</button>
+<input type="hidden" id="task0start" value="2018-10-01 0:00:00">
+<script>
+
+			let tasks = [
+			{
+				"start": '2018-10-01 0:00:00',
+				end: '2018-10-08 23:59:59',
+				name: 'ウェブのリデザイン',
+				id: "0",
+				progress: 20
+
+			},
+			{
+				start: '2018-10-03',
+				end: '2018-10-06',
+				name: 'Write new content',
+				id: "1",
+				progress: 5,
+				dependencies: 'Task 0'
+			},
+			{
+				start: '2018-10-04',
+				end: '2018-10-08',
+				name: 'Apply new styles',
+				id: "2",
+				progress: 10,
+				dependencies: '1'
+			},
+			{
+				start: '2018-10-08',
+				end: '2018-10-09',
+				name: 'Review',
+				id: "3",
+				progress: 5,
+				dependencies: '2'
+			},
+			{
+				start: '2018-10-08',
+				end: '2018-10-10',
+				name: 'Deploy',
+				id: "4",
+				progress: 0,
+				dependencies: '2'
+			},
+			{
+				start: '2018-10-11',
+				end: '2018-10-11',
+				name: 'Go Live!',
+				id: "5",
+				progress: 40,
+				dependencies: '4',
+				custom_class: 'bar-milestone'
+			},
+			{
+				start: '2019-01-05',
+				end: '2019-10-12',
+				name: 'Long term task',
+				id: "6",
+				progress: 0,
+				dependencies: '4,'
+			}
+		]
+</script>
+<script th:inline="javascript">
+    console.log('Javascript');
+    let text = [[${JSFS}]];
+    console.log(text);
+
+    let taskList = /*[[${taskTest}]]*/ null;
+    console.log(taskList);
+    console.log(taskList.forEach(function(value,index, array){
+        console.log(value);
+    }));
+    console.log(taskList[0].overview);
+
+    		let gantt_chart = new Gantt(".gantt-target", tasks, {
+			on_click: task => {
+				console.log(task);
+			},
+			on_date_change: (task, start, end) => {
+				console.log(task, start, end);
+				console.log(`${task.id} moving`);
+				if(task.id == 'Task 0'){
+					let task0start = document.querySelector('#task0start');
+					task0start.value = `${start.getFullYear()}-${start.getMonth()+1}-${start.getDate()} 00:00:00}`;
+				}
+				console.log(`${task.id} moved`);
+			},
+			on_progress_change: (task, progress) => {
+				console.log(task, progress);
+			},
+			on_view_change: (mode) => {
+				console.log(mode);
+			},
+			date_format: 'YYYY-MM-DD',
+			view_mode: 'Month',
+			language: 'ja-JP',
+			custom_popup_html: function(task) {
+	  			// the task object will contain the updated
+	  			// dates and progress value .format('MMM D')
+				console.log(task);
+				//console.log(`start:(${typeof(task.start)})${task.start},end:(${typeof(task.end)})${task.end}`);
+				//console.log(`_start:(${typeof(task._start)})${task._start},_end:(${typeof(task._end)})${task._end}`);
+
+
+
+	 			const end_date = `${task._end.getMonth() + 1}月${task._end.getDate()}日`;
+
+	 			//
+
+	  			return `
+					<div class="details-container">
+	  					<h5>${task.name}</h5>
+	  					<p>期限: ${end_date}</p>
+	  					<p>${task.progress}% 完了</p>
+					</div>
+ 				 `;
+ 				 //console.log(task._end);
+			}
+		});
+		console.log(gantt_chart);
+
+	/**
+	let qd = document.querySelector('#view_mode_qd');
+	qd.addEventListener('click',function(){
+		gantt_chart.change_view_mode('Quarter Day')
+		console.log(qd.textContent);
+	},false);
+
+	let hd = document.querySelector('#view_mode_hd');
+	hd.addEventListener('click',function(){
+		gantt_chart.change_view_mode('Half Day')
+		console.log(hd.textContent);
+	},false);
+
+**/
+	let vmd = document.querySelector('#view_mode_d');
+	vmd.addEventListener('click',function(){
+		gantt_chart.change_view_mode('Day')
+		//console.log(vmd.textContent);
+	},false);
+
+	let vmw = document.querySelector('#view_mode_w');
+	vmw.addEventListener('click',function(){
+		gantt_chart.change_view_mode('Week')
+		console.log(vmw.textContent);
+	},false);
+
+	let vmm = document.querySelector('#view_mode_m');
+	vmm.addEventListener('click',function(){
+		gantt_chart.change_view_mode('Month')
+		console.log(vmm.textContent);
+	},false);
+
+	let rg = document.querySelector('#resetGantt');
+	rg.addEventListener('click',function(){
+		gantt_chart.refresh(tasks);
+		console.log('reset');
+		console.log(tasks);
+	},false);
+</script>
+
+
 <!--タスク入力フォーム-->
 <!--工事中
 <form method="get" th:action="@{/newtask}">
