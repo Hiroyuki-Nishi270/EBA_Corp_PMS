@@ -21,9 +21,31 @@
     <input type="number" id="task_progress" name="progress" th:value="${taskForm.progress == null}? '0':${taskForm.progress}" min="0" max="100" step="10"required><br>
     <div th:if="${#fields.hasErrors('progress')}" th:errors="${taskForm.progress}" style="color:red;"></div>
 
-<!--Dependancies（後に回す）
-    <label for="task_dependancies">先行タスク</label>
-    <input type="number" id="task_dependancies" name="task_dependancies" th:value="${TaskForm.dependancies}" title="0~100の10刻みで入力可能です"><br>
+    <label for="attacheFile">添付ファイル</label>
+    <form method="POST" enctype="multipart/form-data" th:action="@{/fileupload}" th:object="${attacheFile}">
+        <table>
+            <tr>
+                <td>File to upload:</td>
+                <td><input type="file" id="attacheFile" name="attacheFile" multiple/></td>
+                <td><input type="submit" value="アップロード" /></td>
+            </tr>
+        </table>
+    </form>
+    <!--
+    th:object="${taskForm}"
+     th:value="${taskForm.fileupload}"
+    -->
+    <!--Dependancies（後に回す）-->
+
+		<!--
+		    <label for="task_dependancies">先行タスク</label>
+    		<form method="POST" enctype="multipart/form-data" th:action="@{/fileupload}">
+			<table>
+				<tr><td>File to upload:</td><td><input type="file" name="file"  id="task_dependancies" name="task_dependancies" th:value="${taskForm.dependancies}"/></td></tr>
+				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+			</table>
+		</form>
+    <input type="number" id="task_dependancies" name="task_dependancies" th:value="${taskForm.dependancies}"><br>
 -->
     <label for="task_start">開始日</label>
     <input type="date" id="task_start" name="start" th:value="${taskForm.start}" required><br>

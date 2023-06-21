@@ -76,7 +76,7 @@ public class MainController {
     @GetMapping("/newtask")
     public String getNewTask(TaskForm taskForm){
         System.out.println(taskForm);
-        return "newtask";
+        return "ticketdetail";
     }
 
     @PostMapping("/newtask")
