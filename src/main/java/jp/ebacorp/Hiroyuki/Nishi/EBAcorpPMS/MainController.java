@@ -29,7 +29,7 @@ public class MainController {
     @GetMapping
     String getIndex(Model model){
         List<TaskForm> TaskList = (List<TaskForm>) TaskFormRepository.findAll();
-        System.out.println(TaskList);
+        //System.out.println(TaskList);
 
         model.addAttribute("taskTest",TaskList);
         model.addAttribute("JSFS", "JavascriptFromSpring");
@@ -74,8 +74,10 @@ public class MainController {
     }
 
     @GetMapping("/newtask")
-    public String getNewTask(TaskForm taskForm){
+    public String getNewTask(TaskForm taskForm,
+                             AttacheFile attacheFile){
         System.out.println(taskForm);
+        System.out.println(attacheFile);
         return "ticketdetail";
     }
 
