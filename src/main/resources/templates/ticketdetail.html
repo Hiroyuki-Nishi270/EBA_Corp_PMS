@@ -31,13 +31,28 @@
             </tr>
         </table>
     </form>
+    <!--添付ファイルリスト -->
+    <table>
+        <thead>
+        <tr>
+            <th>添付ファイル</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="file : ${attacheFile}">
+            <td><a th:text="${file.filename}"></a></td>
+        </tr>
+        </tbody>
+    </table>
     <!--
     th:object="${taskForm}"
      th:value="${taskForm.fileupload}"
+     th:href="${file.filepath}/${file.filename}"
     -->
     <!--Dependancies（後に回す）-->
 
 		<!--
+
 		    <label for="task_dependancies">先行タスク</label>
     		<form method="POST" enctype="multipart/form-data" th:action="@{/fileupload}">
 			<table>
