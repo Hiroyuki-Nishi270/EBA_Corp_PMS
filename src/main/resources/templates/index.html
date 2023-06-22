@@ -42,7 +42,7 @@
     <tbody>
         <tr th:each="task : ${taskTest}">
             <td th:text="${task.id}"></td>
-            <td th:text="${task.name}"></td>
+            <td><a th:href="@{'/ticket/' + ${task.id}}" th:text="${task.name}"></a></td>
         </tr>
     </tbody>
 </table>
@@ -51,13 +51,14 @@
     <h2 class="heading">Interactive Gantt Chart entirely made in SVG!</h2>
     <!-- Gantt Chart本体-->
     <div class="gantt-target"></div>
+    <div id="view_mode_buttons" class="mx-auto mt-3 btn-group" role="group">
+        <button id="view_mode_d" type="button" class="btn btn-sm btn-light">Day</button>
+        <button id="view_mode_w" type="button" class="btn btn-sm btn-light">Week</button>
+        <button id="view_mode_m" type="button" class="btn btn-sm btn-light">Month</button>
+    </div>
+    <button id="resetGantt" type="reset" class="btn btn-sm btn-light">Reset</button>
 </div>
-<div id="view_mode_buttons" class="mx-auto mt-3 btn-group" role="group">
-    <button id="view_mode_d" type="button" class="btn btn-sm btn-light">Day</button>
-    <button id="view_mode_w" type="button" class="btn btn-sm btn-light">Week</button>
-    <button id="view_mode_m" type="button" class="btn btn-sm btn-light">Month</button>
-</div>
-<button id="resetGantt" type="reset" class="btn btn-sm btn-light">Reset</button>
+
 <input type="hidden" id="task0start" value="2018-10-01 0:00:00">
 <script>
 
