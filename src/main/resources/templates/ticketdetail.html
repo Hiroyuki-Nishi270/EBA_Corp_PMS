@@ -2,12 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>新しいタスク作成</title>
+    <title>タスク詳細</title>
 </head>
 <body>
-<h2 class="heading">新しいタスク</h2>
+<h2 class="heading">タスク詳細</h2>
 <div th:if="${message != null}" th:text="${message}"></div>
 <form method="post" th:action="@{/newtask}" th:object="${taskForm}">
+    <label for="task_id">タスクid</label>
+    <div id="task_id" th:if="${taskForm.id != null}" th:text="${taskForm.id}"></div>
+    <div id="task_id_new" th:if="${taskForm.id == null}">新規タスク(未登録)</div>
+
     <label for="task_name">タスク名</label>
     <input type="text" id="task_name" name="name" required th:value="${taskForm.name}" maxlength="255"><br>
     <div th:if="${#fields.hasErrors('name')}" th:errors="${taskForm.name}" style="color:red;"></div>
@@ -21,8 +25,8 @@
     <input type="number" id="task_progress" name="progress" th:value="${taskForm.progress == null}? '0':${taskForm.progress}" min="0" max="100" step="10"required><br>
     <div th:if="${#fields.hasErrors('progress')}" th:errors="${taskForm.progress}" style="color:red;"></div>
 
-    <label for="attacheFile">添付ファイル</label>
-    <form method="POST" enctype="multipart/form-data" th:action="@{/fileupload}" th:object="${attacheFile}">
+    <form method="POST" enctype="multipart/form-data" th:action="@{/fileupload}" th:object="${attacheFile}" th:if="${taskForm.id != null}">
+        <label for="attacheFile">添付ファイル</label>
         <table>
             <tr>
                 <td>File to upload:</td>
@@ -32,7 +36,7 @@
         </table>
     </form>
     <!--添付ファイルリスト -->
-    <table>
+    <table th:if="${taskForm.id != null}">
         <thead>
         <tr>
             <th>添付ファイル</th>
