@@ -6,6 +6,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @Table(name = "Task_Data")
@@ -18,11 +19,11 @@ public class TaskForm {
 
     //start: '2018-10-01 0:00:00', //タスクの開始(時間0:00:00はデフォルトで入れなくてはいけない)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Calendar start;
+    private String start;
 
     //end: '2018-10-08 23:59:59', //タスクの終了(時間23:59:59はデフォルトで入れなくてはいけない)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Calendar end;
+    private String end;
 
     //name: 'ウェブのリデザイン',    //タスク名
     @Length(min = 1, max = 255, message = "タスク名は空欄にできません")
