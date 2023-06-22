@@ -1,5 +1,6 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
 
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.User;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -19,6 +21,13 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/")
 public class MainController {
+
+    private final StorageService storageService;
+
+    @Autowired
+    public MainController(StorageService storageService) {
+        this.storageService = storageService;
+    }
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -77,8 +86,8 @@ public class MainController {
     @GetMapping("/newtask")
     public String getNewTask(TaskForm taskForm,
                              AttacheFile attacheFile){
-        System.out.println(taskForm);
-        System.out.println(attacheFile);
+        //System.out.println(taskForm);
+        //System.out.println(attacheFile);
         return "ticketdetail";
     }
 
@@ -87,9 +96,9 @@ public class MainController {
                            BindingResult bindingResult,
                            Model model){
         if (!bindingResult.hasErrors()) {
-            System.out.println("No validation error");
+            //System.out.println("No validation error");
             try{
-                System.out.println(taskForm);
+                //System.out.println(taskForm);
 
                 TaskFormRepository.save(taskForm);
                 model.addAttribute("message", "タスク登録に成功しました");
@@ -109,7 +118,7 @@ public class MainController {
 
         taskForm = taskFormFromDB.get();
 
-        System.out.println(taskForm);
+        //System.out.println(taskForm);
 
         model.addAttribute("taskForm", taskForm);
 
@@ -121,9 +130,9 @@ public class MainController {
                                  BindingResult bindingResult,
                                  Model model){
         if (!bindingResult.hasErrors()) {
-            System.out.println("No validation error");
+            //System.out.println("No validation error");
             try{
-                System.out.println(taskForm);
+                //System.out.println(taskForm);
                 TaskFormRepository.save(taskForm);
                 model.addAttribute("message", "タスク更新に成功しました");
             }catch(Exception e){
@@ -133,5 +142,17 @@ public class MainController {
         return "ticketdetail";
 
 
+    }
+
+    @PostMapping("/fileupload/{id}")
+    public String postFileUpload(@PathVariable Integer id,
+                                 @RequestParam("attacheFile") MultipartFile file){
+
+        System.out.println(id);
+        System.out.println(file);
+        storageService.store(file);
+        //redirectAttributes.addFlashAttribute("message",
+        //        "You successfully uploaded " + file.getOriginalFilename() + "!");
+        return "redirect:/ticket/" + id;
     }
 }
