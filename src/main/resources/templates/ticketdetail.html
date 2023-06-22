@@ -17,7 +17,7 @@
     <div th:if="${#fields.hasErrors('name')}" th:errors="${taskForm.name}" style="color:red;"></div>
 
     <label for="task_detail">タスク内容</label>
-    <textarea id="task_detail" name="detail" th:value="${taskForm.detail}" maxlength="65535" title="65535文字以内に納めてください"></textarea>
+    <textarea id="task_detail" name="detail" th:text="${taskForm.detail}" maxlength="65535" title="65535文字以内に納めてください"></textarea>
     <!--<input type="text" id="task_detail" name="detail" th:value="${taskForm.detail}" maxlength="65535" title="65535文字以内に納めてください">--><br>
     <div th:if="${#fields.hasErrors('detail')}" th:errors="${taskForm.detail}" style="color:red;"></div>
 
