@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
@@ -85,17 +86,52 @@ public class MainController {
     public String postNewTask(@Validated TaskForm taskForm,
                            BindingResult bindingResult,
                            Model model){
-        System.out.println(bindingResult.hasErrors());
+        if (!bindingResult.hasErrors()) {
+            System.out.println("No validation error");
+            try{
+                System.out.println(taskForm);
+
+                TaskFormRepository.save(taskForm);
+                model.addAttribute("message", "タスク登録に成功しました");
+                }catch(Exception e){
+                model.addAttribute("message", "タスク登録に失敗しました");
+            }
+        }
+        return "ticketdetail";
+    }
+
+    @GetMapping("/ticket/{id}")
+    public String getTaskDetail(@PathVariable Integer id,
+                                 TaskForm taskForm,
+                                 Model model){
+
+        Optional<TaskForm> taskFormFromDB = TaskFormRepository.findById(id);
+
+        taskForm = taskFormFromDB.get();
+
+        System.out.println(taskForm);
+
+        model.addAttribute("taskForm", taskForm);
+
+        return "ticketdetail";
+    }
+    @PostMapping("/ticket/{id}")
+    public String postTaskDetail(@PathVariable Integer id,
+                                 @Validated TaskForm taskForm,
+                                 BindingResult bindingResult,
+                                 Model model){
         if (!bindingResult.hasErrors()) {
             System.out.println("No validation error");
             try{
                 System.out.println(taskForm);
                 TaskFormRepository.save(taskForm);
-                model.addAttribute("message", "タスク登録に成功しました");
+                model.addAttribute("message", "タスク更新に成功しました");
             }catch(Exception e){
-                model.addAttribute("message", "タスク登録に失敗しました");
+                model.addAttribute("message", "タスク更新に失敗しました");
             }
         }
-        return "newtask";
-    };
+        return "ticketdetail";
+
+
+    }
 }
