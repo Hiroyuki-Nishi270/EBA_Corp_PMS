@@ -57,13 +57,13 @@ public class FileSystemStorageService {
 				Files.copy(inputStream, destinationFile,
 						StandardCopyOption.REPLACE_EXISTING);
 
-				AttachFile attachFile = new AttachFile();
-				attachFile.setAttachFile(
+				AttachFileEntity attachFileEntity = new AttachFileEntity();
+				attachFileEntity.setAttachFile(
 						id,
 						file.getOriginalFilename(),
 						destinationDirectoryRelative.toString()
 				);
-				AttachFileRepository.save(attachFile);
+				AttachFileRepository.save(attachFileEntity);
 
 
 			}

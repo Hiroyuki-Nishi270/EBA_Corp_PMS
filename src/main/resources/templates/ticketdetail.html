@@ -94,24 +94,24 @@
     <a href="/">戻る</a>
 </form>
 <!--添付ファイルアップロード -->
-<form method="POST" enctype="multipart/form-data" th:action="@{'/fileupload/' + ${taskForm.id}}" th:object="${attachFile}" th:if="${taskForm.id != null}">
+<form method="POST" enctype="multipart/form-data" th:action="@{'/file/upload/' + ${taskForm.id}}" th:object="${attachFileEntity}" th:if="${taskForm.id != null}">
     <table>
         <tr>
             <td>File to upload:</td>
-            <td><input type="file" id="attachFile" name="attachFile"/></td>
+            <td><input type="file" id="attachFileEntity" name="attachFileEntity"/></td>
             <td><input type="submit" value="アップロード" /></td>
         </tr>
     </table>
 </form>
 <!--添付ファイルリスト -->
-<table th:if="${attachFile != null}" th:object="${attachFile}">
+<table th:if="${attachFileEntity != null}" th:object="${attachFileEntity}">
     <thead>
     <tr>
         <th>添付ファイル</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="file : ${attachFile}">
+    <tr th:each="file : ${attachFileEntity}">
         <td><a th:href="@{'/file/'+ ${taskForm.id} + '/'+ ${file.filename}}"　th:text="${file.filename}"></a></td>
     </tr>
     </tbody>

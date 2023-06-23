@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class AttachFile {
+public class AttachFileEntity {
     //フィールド
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

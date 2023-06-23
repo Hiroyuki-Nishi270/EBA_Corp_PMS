@@ -4,7 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface CRUDAttachFileRepository extends CrudRepository<AttachFile, Integer> {
+public interface CRUDAttachFileRepository extends CrudRepository<AttachFileEntity, Integer> {
 
-    List<AttachFile> findByTicketidEquals(Integer ticketId);
+    List<AttachFileEntity> findByTicketidEquals(Integer ticketId);
 }

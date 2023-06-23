@@ -1,15 +1,12 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
 
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.storage.AttachFile;
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.storage.CRUDAttachFileRepository;
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.storage.FileSystemStorageService;
+
 import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.CRUDTaskFormRepository;
 import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.TaskForm;
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.storage.AttachFileEntity;
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.storage.CRUDAttachFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,8 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -29,13 +24,6 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/")
 public class MainController {
-
-    private final FileSystemStorageService storageService;
-
-    @Autowired
-    public MainController(FileSystemStorageService storageService) {
-        this.storageService = storageService;
-    }
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -94,9 +82,10 @@ public class MainController {
         return "signup";
     }
 
+
     @GetMapping("/newtask")
     public String getNewTask(TaskForm taskForm,
-                             AttachFile attachFile){
+                             AttachFileEntity attachFileEntity){
         return "ticketdetail";
     }
 
@@ -120,15 +109,15 @@ public class MainController {
     public String getTaskDetail(@PathVariable Integer id,
                                  TaskForm taskForm,
                                  Model model,
-                                AttachFile attachFile){
+                                AttachFileEntity attachFileEntity){
 
         Optional<TaskForm> taskFormFromDB = TaskFormRepository.findById(id);
-        List<AttachFile> attachFiles = attachFileRepository.findByTicketidEquals(id);
+        List<AttachFileEntity> attachFileEntities = attachFileRepository.findByTicketidEquals(id);
 
         taskForm = taskFormFromDB.get();
 
         model.addAttribute("taskForm", taskForm);
-        model.addAttribute("attachFile", attachFiles);
+        model.addAttribute("attachFileEntity", attachFileEntities);
 
         return "ticketdetail";
     }
@@ -150,24 +139,4 @@ public class MainController {
 
     }
 
-    @PostMapping("/fileupload/{id}")
-    public String postFileUpload(@PathVariable Integer id,
-                                 @RequestParam("attachFile") MultipartFile file,
-                                 RedirectAttributes redirectAttributes){
-        storageService.store(file, id);
-
-        redirectAttributes.addFlashAttribute("message",
-                "ファイル " + file.getOriginalFilename() + "のアップロードが完了しました。");
-        return "redirect:/ticket/" + id;
-    }
-
-    @GetMapping("/file/{id}/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename,
-                                              @PathVariable Integer id) {
-
-        Resource file = storageService.loadAsResource(filename, id);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
 }
