@@ -54,13 +54,10 @@ public class FileSystemStorageService {
 						"Cannot store file outside current directory.");
 			}
 			try (InputStream inputStream = file.getInputStream()) {
-				if(!Files.exists(destinationDirectory)){
-					Files.createDirectory(destinationDirectory);
-				}
+
+				Files.createDirectories(destinationDirectory);
 				Files.copy(inputStream, destinationFile,
 						StandardCopyOption.REPLACE_EXISTING);
-
-
 
 				AttachFile attachFile = new AttachFile();
 				attachFile.setAttachFile(
