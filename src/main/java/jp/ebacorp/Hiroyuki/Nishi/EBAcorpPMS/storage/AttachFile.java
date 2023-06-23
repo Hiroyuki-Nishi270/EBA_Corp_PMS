@@ -1,4 +1,4 @@
-package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
+package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.storage;
 
 import jakarta.persistence.*;
 import lombok.Data;

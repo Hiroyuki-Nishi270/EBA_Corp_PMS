@@ -1,7 +1,5 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.storage;
 
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.AttachFile;
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.CRUDAttachFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
