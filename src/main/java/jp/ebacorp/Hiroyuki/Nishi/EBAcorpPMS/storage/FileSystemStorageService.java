@@ -19,7 +19,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
 @Service
-public class FileSystemStorageService implements StorageService {
+public class FileSystemStorageService {
 
 	private final Path rootLocation;
 
@@ -31,40 +31,6 @@ public class FileSystemStorageService implements StorageService {
 		this.rootLocation = Paths.get(properties.getLocation());
 	}
 
-	//使用しない
-	@Override
-	public void store(MultipartFile file) {
-		try {
-			if (file.isEmpty()) {
-				throw new StorageException("Failed to store empty file.");
-			}
-
-			Path destinationFile = this.rootLocation.resolve(
-					Paths.get(
-							file.getOriginalFilename()
-					)
-					).normalize().toAbsolutePath();
-			//動作チェック用
-			System.out.println("rootLocation"+ this.rootLocation.toString());
-			System.out.println("destination"+ destinationFile.toString());
-
-			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
-				// This is a security check
-				throw new StorageException(
-						"Cannot store file outside current directory.");
-			}
-			try (InputStream inputStream = file.getInputStream()) {
-				Files.copy(inputStream, destinationFile,
-					StandardCopyOption.REPLACE_EXISTING);
-
-			}
-		}
-		catch (IOException e) {
-			throw new StorageException("Failed to store file.", e);
-		}
-	}
-
-	@Override
 	public void store(MultipartFile file, Integer id) {
 
 		try {
@@ -111,7 +77,7 @@ public class FileSystemStorageService implements StorageService {
 			throw new StorageException("Failed to store file.", e);
 		}
 	}
-	@Override
+
 	public Stream<Path> loadAll() {
 		try {
 			return Files.walk(this.rootLocation, 1)
@@ -124,12 +90,12 @@ public class FileSystemStorageService implements StorageService {
 
 	}
 
-	@Override
+
 	public Path load(String filename) {
 		return rootLocation.resolve(filename);
 	}
 
-	@Override
+
 	public Resource loadAsResource(String filename) {
 		try {
 			Path file = load(filename);
@@ -148,12 +114,12 @@ public class FileSystemStorageService implements StorageService {
 		}
 	}
 
-	@Override
+
 	public void deleteAll() {
 		FileSystemUtils.deleteRecursively(rootLocation.toFile());
 	}
 
-	@Override
+
 	public void init() {
 		try {
 			Files.createDirectories(rootLocation);
