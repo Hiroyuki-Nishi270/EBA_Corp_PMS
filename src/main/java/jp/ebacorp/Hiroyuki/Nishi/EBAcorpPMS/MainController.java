@@ -1,8 +1,11 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
 
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.storage.StorageService;
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.storage.FileSystemStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,10 +26,10 @@ import java.util.Optional;
 @RequestMapping("/")
 public class MainController {
 
-    private final StorageService storageService;
+    private final FileSystemStorageService storageService;
 
     @Autowired
-    public MainController(StorageService storageService) {
+    public MainController(FileSystemStorageService storageService) {
         this.storageService = storageService;
     }
 
@@ -121,7 +124,7 @@ public class MainController {
                                 AttachFile attachFile){
 
         Optional<TaskForm> taskFormFromDB = TaskFormRepository.findById(id);
-        List<AttachFile> attachFileFromDB = attachFileRepository.findByTicketidEquals(id);
+        List<AttachFile> attachFiles = attachFileRepository.findByTicketidEquals(id);
         //List<AttachFile> attachFileFromDB = attachFileRepository.getAttachFileList(id);
 
         taskForm = taskFormFromDB.get();
@@ -129,6 +132,7 @@ public class MainController {
         //System.out.println(taskForm);
 
         model.addAttribute("taskForm", taskForm);
+        model.addAttribute("attachFile", attachFiles);
 
         return "ticketdetail";
     }
@@ -165,5 +169,15 @@ public class MainController {
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
         return "redirect:/ticket/" + id;
+    }
+
+    @GetMapping("/files/{id}/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename,
+                                              @PathVariable Integer id) {
+
+        Resource file = storageService.loadAsResource(filename);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 }
