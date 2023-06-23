@@ -129,11 +129,8 @@ public class MainController {
 
         Optional<TaskForm> taskFormFromDB = TaskFormRepository.findById(id);
         List<AttachFile> attachFiles = attachFileRepository.findByTicketidEquals(id);
-        //List<AttachFile> attachFileFromDB = attachFileRepository.getAttachFileList(id);
 
         taskForm = taskFormFromDB.get();
-
-        //System.out.println(taskForm);
 
         model.addAttribute("taskForm", taskForm);
         model.addAttribute("attachFile", attachFiles);
@@ -146,7 +143,6 @@ public class MainController {
                                  BindingResult bindingResult,
                                  Model model){
         if (!bindingResult.hasErrors()) {
-            //System.out.println("No validation error");
             try{
                 //System.out.println(taskForm);
                 TaskFormRepository.save(taskForm);
@@ -168,10 +164,9 @@ public class MainController {
         System.out.println(id);
         System.out.println(file);
         storageService.store(file, id);
-        //model.addAttribute("message", "ファイルアップロード完了");
 
         redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
+                "ファイル " + file.getOriginalFilename() + "のアップロードが完了しました。");
         return "redirect:/ticket/" + id;
     }
 
