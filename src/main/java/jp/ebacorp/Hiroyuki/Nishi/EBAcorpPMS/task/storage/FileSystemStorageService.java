@@ -29,17 +29,17 @@ public class FileSystemStorageService {
 		this.rootLocation = Paths.get(properties.getLocation());
 	}
 
-	public void store(MultipartFile file, Integer id) {
+	public void store(MultipartFile file, Integer ticketId) {
 
 		try {
 			if (file.isEmpty()) {
 				throw new StorageException("Failed to store empty file.");
 			}
 
-			Path destinationDirectoryRelative = this.rootLocation.resolve(id.toString()).normalize();//ファイルのディレクトリ(相対)
+			Path destinationDirectoryRelative = this.rootLocation.resolve(ticketId.toString()).normalize();//ファイルのディレクトリ(相対)
 			Path destinationDirectory = destinationDirectoryRelative.toAbsolutePath();//ファイルのディレクトリ(絶対)
 
-			Path destinationFile = this.rootLocation.resolve(id.toString()).
+			Path destinationFile = this.rootLocation.resolve(ticketId.toString()).
 					resolve(
 							Paths.get(
 									file.getOriginalFilename()
@@ -59,13 +59,13 @@ public class FileSystemStorageService {
 
 				AttachFileEntity attachFileEntity = new AttachFileEntity();
 				attachFileEntity.setAttachFile(
-						id,
+						ticketId,
 						file.getOriginalFilename(),
 						destinationDirectoryRelative.toString()
 				);
-				AttachFileRepository.save(attachFileEntity);
-
-
+				if(!AttachFileRepository.existsByTicketidAndFilename(ticketId, file.getOriginalFilename())){
+					AttachFileRepository.save(attachFileEntity);
+				}
 			}
 		}
 		catch (IOException e) {
@@ -86,14 +86,14 @@ public class FileSystemStorageService {
 	}
 
 
-	public Path load(String filename, Integer id) {
-		return rootLocation.resolve(id.toString()).resolve(filename);
+	public Path load(String filename, Integer ticketId) {
+		return rootLocation.resolve(ticketId.toString()).resolve(filename);
 	}
 
 
-	public Resource loadAsResource(String filename, Integer id) {
+	public Resource loadAsResource(String filename, Integer ticketId) {
 		try {
-			Path file = load(filename, id);
+			Path file = load(filename, ticketId);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;

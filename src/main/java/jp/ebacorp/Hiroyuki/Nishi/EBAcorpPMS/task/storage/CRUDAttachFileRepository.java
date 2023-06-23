@@ -7,4 +7,5 @@ import java.util.List;
 public interface CRUDAttachFileRepository extends CrudRepository<AttachFileEntity, Integer> {
 
     List<AttachFileEntity> findByTicketidEquals(Integer ticketId);
+    boolean existsByTicketidAndFilename(Integer ticketId, String filename);
 }
