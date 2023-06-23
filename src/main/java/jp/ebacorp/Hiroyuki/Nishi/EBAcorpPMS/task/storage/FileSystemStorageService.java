@@ -1,4 +1,4 @@
-package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.storage;
+package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.storage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

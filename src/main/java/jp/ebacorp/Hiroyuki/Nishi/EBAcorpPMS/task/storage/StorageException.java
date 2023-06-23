@@ -1,4 +1,4 @@
-package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.storage;
+package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.storage;
 
 public class StorageException extends RuntimeException {
 

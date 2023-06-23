@@ -3,7 +3,7 @@ package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.storage.StorageProperties;
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.storage.StorageProperties;
 
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)

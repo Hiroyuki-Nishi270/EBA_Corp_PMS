@@ -1,6 +1,5 @@
-package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.storage;
+package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.storage;
 
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.storage.AttachFile;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

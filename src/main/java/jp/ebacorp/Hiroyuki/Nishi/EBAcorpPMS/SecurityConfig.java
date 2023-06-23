@@ -1,6 +1,6 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
 
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.storage.FileSystemStorageService;
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.storage.FileSystemStorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
