@@ -3,8 +3,6 @@ package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
 
 import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.CRUDTaskFormRepository;
 import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.TaskForm;
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.storage.AttachFileEntity;
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.storage.CRUDAttachFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.User;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
@@ -30,9 +27,6 @@ public class MainController {
 
     @Autowired
     CRUDTaskFormRepository TaskFormRepository;
-
-    @Autowired
-    CRUDAttachFileRepository attachFileRepository;
 
     @Autowired
     DataSource dataSource;
@@ -80,67 +74,6 @@ public class MainController {
             }
         }
         return "signup";
-    }
-
-
-    @GetMapping("/ticket/new")
-    public String getNewTask(TaskForm taskForm
-                             //AttachFileEntity attachFileEntity
-                             ){
-        return "ticketdetail";
-    }
-
-    @PostMapping("/ticket/new")
-    public String postNewTask(@Validated TaskForm taskForm,
-                           BindingResult bindingResult,
-                           Model model){
-        if (!bindingResult.hasErrors()) {
-            try{
-
-                TaskFormRepository.save(taskForm);
-                model.addAttribute("message", "タスク登録に成功しました");
-                }catch(Exception e){
-                model.addAttribute("message", "タスク登録に失敗しました");
-            }
-        }
-        return "ticketdetail";
-    }
-
-    @GetMapping("/ticket/{id}")
-    public String getTaskDetail(@PathVariable Integer id,
-                                 Model model
-                                ){
-
-        Optional<TaskForm> taskFormFromDB = TaskFormRepository.findById(id);
-        List<AttachFileEntity> attachFileEntities = attachFileRepository.findByTicketidEquals(id);
-
-        TaskForm taskForm = taskFormFromDB.get();
-
-        model.addAttribute("taskForm", taskForm);
-        model.addAttribute("attachFileEntity", attachFileEntities);
-
-        return "ticketdetail";
-    }
-    @PostMapping("/ticket/{id}")
-    public String postTaskDetail(@PathVariable Integer id,
-                                 @Validated TaskForm taskForm,
-                                 BindingResult bindingResult,
-                                 Model model){
-        if (!bindingResult.hasErrors()) {
-            try {
-                TaskFormRepository.save(taskForm);
-                model.addAttribute("message", "タスク更新に成功しました");
-            } catch (Exception e) {
-                model.addAttribute("message", "タスク更新に失敗しました");
-            }
-        }
-
-        List<AttachFileEntity> attachFileEntities = attachFileRepository.findByTicketidEquals(id);
-
-        model.addAttribute("taskForm", taskForm);
-        model.addAttribute("attachFileEntity", attachFileEntities);
-        return "ticketdetail";
-
     }
 
 }
