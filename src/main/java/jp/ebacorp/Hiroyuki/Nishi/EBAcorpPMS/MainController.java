@@ -108,14 +108,13 @@ public class MainController {
 
     @GetMapping("/ticket/{id}")
     public String getTaskDetail(@PathVariable Integer id,
-                                 TaskForm taskForm,
                                  Model model
                                 ){
 
         Optional<TaskForm> taskFormFromDB = TaskFormRepository.findById(id);
         List<AttachFileEntity> attachFileEntities = attachFileRepository.findByTicketidEquals(id);
 
-        taskForm = taskFormFromDB.get();
+        TaskForm taskForm = taskFormFromDB.get();
 
         model.addAttribute("taskForm", taskForm);
         model.addAttribute("attachFileEntity", attachFileEntities);
@@ -127,8 +126,6 @@ public class MainController {
                                  @Validated TaskForm taskForm,
                                  BindingResult bindingResult,
                                  Model model){
-        System.out.println("postTaskDetail");
-
         if (!bindingResult.hasErrors()) {
             try {
                 TaskFormRepository.save(taskForm);
@@ -138,10 +135,7 @@ public class MainController {
             }
         }
 
-        Optional<TaskForm> taskFormFromDB = TaskFormRepository.findById(id);
         List<AttachFileEntity> attachFileEntities = attachFileRepository.findByTicketidEquals(id);
-
-        //taskForm = taskFormFromDB.get();
 
         model.addAttribute("taskForm", taskForm);
         model.addAttribute("attachFileEntity", attachFileEntities);
