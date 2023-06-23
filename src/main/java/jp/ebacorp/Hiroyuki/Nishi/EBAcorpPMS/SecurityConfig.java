@@ -1,5 +1,7 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
 
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.storage.StorageService;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,18 +45,11 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService (DataSource datasource) {
         return new JdbcUserDetailsManager(datasource);
     }
-
-    /**
     @Bean
-    public UserDetailsService user() {
-        UserDetails user = User.builder()
-                .username("InMemoryTest")
-                .password(passwordEncoder().encode("A-a1234567"))
-                .roles("USER")
-                .build();
-        System.out.println(passwordEncoder().encode("A-a1234567"));
-        return new InMemoryUserDetailsManager(user);
+    CommandLineRunner init(StorageService storageService) {
+        return (args) -> {
+            storageService.deleteAll();
+            storageService.init();
+        };
     }
-    **/
-
 }

@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -32,7 +33,11 @@ public class MainController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @Autowired CRUDTaskFormRepository TaskFormRepository;
+    @Autowired
+    CRUDTaskFormRepository TaskFormRepository;
+
+    @Autowired
+    CRUDAttachFileRepository attachFileRepository;
 
     @Autowired
     DataSource dataSource;
@@ -85,9 +90,9 @@ public class MainController {
 
     @GetMapping("/newtask")
     public String getNewTask(TaskForm taskForm,
-                             AttacheFile attacheFile){
+                             AttachFile attachFile){
         //System.out.println(taskForm);
-        //System.out.println(attacheFile);
+        //System.out.println(attachFile);
         return "ticketdetail";
     }
 
@@ -112,9 +117,12 @@ public class MainController {
     @GetMapping("/ticket/{id}")
     public String getTaskDetail(@PathVariable Integer id,
                                  TaskForm taskForm,
-                                 Model model){
+                                 Model model,
+                                AttachFile attachFile){
 
         Optional<TaskForm> taskFormFromDB = TaskFormRepository.findById(id);
+        List<AttachFile> attachFileFromDB = attachFileRepository.findByTicketidEquals(id);
+        //List<AttachFile> attachFileFromDB = attachFileRepository.getAttachFileList(id);
 
         taskForm = taskFormFromDB.get();
 
@@ -146,13 +154,16 @@ public class MainController {
 
     @PostMapping("/fileupload/{id}")
     public String postFileUpload(@PathVariable Integer id,
-                                 @RequestParam("attacheFile") MultipartFile file){
+                                 @RequestParam("attachFile") MultipartFile file,
+                                 RedirectAttributes redirectAttributes){
 
         System.out.println(id);
         System.out.println(file);
-        storageService.store(file);
-        //redirectAttributes.addFlashAttribute("message",
-        //        "You successfully uploaded " + file.getOriginalFilename() + "!");
+        storageService.store(file, id);
+        //model.addAttribute("message", "ファイルアップロード完了");
+
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
         return "redirect:/ticket/" + id;
     }
 }

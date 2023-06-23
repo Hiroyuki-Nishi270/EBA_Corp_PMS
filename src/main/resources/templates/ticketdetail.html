@@ -7,6 +7,7 @@
 <body>
 <h2 class="heading">タスク詳細</h2>
 <div th:if="${message != null}" th:text="${message}"></div>
+<!--新規タスク-->
 <form method="post" th:action="@{/newtask}" th:object="${taskForm}" th:if="${taskForm.id == null}">
     <label for="task_id">タスクid</label>
     <div id="task_id_new">新規タスク(未登録)</div>
@@ -23,16 +24,9 @@
     <input type="number" id="task_progress" name="progress" th:value="${taskForm.progress == null}? '0':${taskForm.progress}" min="0" max="100" step="10"required><br>
     <div th:if="${#fields.hasErrors('progress')}" th:errors="${taskForm.progress}" style="color:red;"></div>
 
-    <!--
-    th:object="${taskForm}"
-     th:value="${taskForm.fileupload}"
-     th:href="${file.filepath}/${file.filename}"
-    -->
     <!--Dependancies（後に回す）-->
-
-		<!--
-
-		    <label for="task_dependancies">先行タスク</label>
+    <!--
+	    <label for="task_dependancies">先行タスク</label>
     		<form method="POST" enctype="multipart/form-data" th:action="@{/fileupload}">
 			<table>
 				<tr><td>File to upload:</td><td><input type="file" name="file"  id="task_dependancies" name="task_dependancies" th:value="${taskForm.dependancies}"/></td></tr>
@@ -52,6 +46,7 @@
     <button type="submit">登録</button>
     <a href="/">戻る</a>
 </form>
+<!--既存タスク-->
 <form method="post" th:action="@{'/ticket/' + ${taskForm.id}}" th:object="${taskForm}" th:if="${taskForm.id != null}">
     <label for="task_id">タスクid</label>
     <div id="task_id" th:if="${taskForm.id != null}" th:text="${taskForm.id}"></div>
@@ -98,24 +93,25 @@
     <button type="submit">更新</button>
     <a href="/">戻る</a>
 </form>
-<form method="POST" enctype="multipart/form-data" th:action="@{/fileupload}" th:object="${attacheFile}" th:if="${taskForm.id != null}">
+<!--添付ファイルアップロード -->
+<form method="POST" enctype="multipart/form-data" th:action="@{'/fileupload/' + ${taskForm.id}}" th:object="${attachFile}" th:if="${taskForm.id != null}">
     <table>
         <tr>
             <td>File to upload:</td>
-            <td><input type="file" id="attacheFile" name="attacheFile" multiple/></td>
+            <td><input type="file" id="attachFile" name="attachFile"/></td>
             <td><input type="submit" value="アップロード" /></td>
         </tr>
     </table>
 </form>
 <!--添付ファイルリスト -->
-<table th:if="${taskForm.id != null}">
+<table th:if="${attachFile != null}" th:object="${attachFile}">
     <thead>
     <tr>
         <th>添付ファイル</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="file : ${attacheFile}">
+    <tr th:each="file : ${attachFile}">
         <td><a th:text="${file.filename}"></a></td>
     </tr>
     </tbody>

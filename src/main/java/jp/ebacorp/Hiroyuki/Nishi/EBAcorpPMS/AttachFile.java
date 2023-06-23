@@ -1,28 +1,30 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Entity
-@Table(name = "File_Data")
 @Data
-public class AttacheFile {
+public class AttachFile {
     //フィールド
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     //紐づいたチケットのid
-    @NotBlank
-    private Integer ticketId;
+    private Integer ticketid;
 
     //ファイル名
-    @NotBlank
     private String filename;
 
     //ファイルパス
-    @NotBlank
-    private String filePath;
+    private String filepath;
+
+    public void setAttachFile(Integer ticketId, String fileName, String filePath){
+        this.ticketid = ticketId;
+        this.filename = fileName;
+        this.filepath = filePath;
+    }
+
 
 }

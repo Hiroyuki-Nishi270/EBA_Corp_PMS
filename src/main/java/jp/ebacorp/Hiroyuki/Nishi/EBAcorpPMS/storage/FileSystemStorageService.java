@@ -1,5 +1,7 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.storage;
 
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.AttachFile;
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.CRUDAttachFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -22,11 +24,14 @@ public class FileSystemStorageService implements StorageService {
 	private final Path rootLocation;
 
 	@Autowired
+	CRUDAttachFileRepository AttachFileRepository;
+	@Autowired
 	public FileSystemStorageService(StorageProperties properties) {
 
 		this.rootLocation = Paths.get(properties.getLocation());
 	}
 
+	//使用しない
 	@Override
 	public void store(MultipartFile file) {
 		try {
@@ -51,6 +56,7 @@ public class FileSystemStorageService implements StorageService {
 			try (InputStream inputStream = file.getInputStream()) {
 				Files.copy(inputStream, destinationFile,
 					StandardCopyOption.REPLACE_EXISTING);
+
 			}
 		}
 		catch (IOException e) {
@@ -61,8 +67,50 @@ public class FileSystemStorageService implements StorageService {
 	@Override
 	public void store(MultipartFile file, Integer id) {
 
-	}
+		try {
+			if (file.isEmpty()) {
+				throw new StorageException("Failed to store empty file.");
+			}
 
+			Path destinationDirectoryRelative = this.rootLocation.resolve(id.toString()).normalize();//ファイルのディレクトリ(相対)
+			Path destinationDirectory = destinationDirectoryRelative.toAbsolutePath();//ファイルのディレクトリ(絶対)
+
+			Path destinationFile = this.rootLocation.resolve(id.toString()).
+					resolve(
+							Paths.get(
+									file.getOriginalFilename()
+							)
+					).normalize().toAbsolutePath();
+
+			if (!destinationFile.getParent().getParent().equals(this.rootLocation.toAbsolutePath())) {
+				// This is a security check
+				throw new StorageException(
+						"Cannot store file outside current directory.");
+			}
+			try (InputStream inputStream = file.getInputStream()) {
+				if(!Files.exists(destinationDirectory)){
+					Files.createDirectory(destinationDirectory);
+				}
+				Files.copy(inputStream, destinationFile,
+						StandardCopyOption.REPLACE_EXISTING);
+
+
+
+				AttachFile attachFile = new AttachFile();
+				attachFile.setAttachFile(
+						id,
+						file.getOriginalFilename(),
+						destinationDirectoryRelative.toString()
+				);
+				AttachFileRepository.save(attachFile);
+
+
+			}
+		}
+		catch (IOException e) {
+			throw new StorageException("Failed to store file.", e);
+		}
+	}
 	@Override
 	public Stream<Path> loadAll() {
 		try {
