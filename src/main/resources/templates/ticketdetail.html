@@ -7,9 +7,9 @@
 <body>
 <h2 class="heading">タスク詳細</h2>
 <div th:if="${message != null}" th:text="${message}"></div>
-<div th:if="${taskForm.dateValid != null}" th:errors="${taskForm.dateValid}" style="color:red;"></div><!-- -->
+<!--<div th:if="${taskForm.dateValid != null}" th:errors="${taskForm.dateValid}" style="color:red;"></div>-->
 <!--新規タスク-->
-<form method="post" th:action="@{/newtask}" th:object="${taskForm}" th:if="${taskForm.id == null}">
+<form method="post" th:action="@{/ticket/new}" th:object="${taskForm}" th:if="${taskForm.id == null}">
     <label for="task_id">タスクid</label>
     <div id="task_id_new">新規タスク(未登録)</div>
 
@@ -43,6 +43,8 @@
     <label for="task_end">終了日</label>
     <input type="date" id="task_end" name="end" th:value="${taskForm.end}" required><br>
     <div th:if="${#fields.hasErrors('end')}" th:errors="${taskForm.end}" style="color:red;"></div>
+    <div th:if="${#fields.hasErrors('*')}" th:errors="${taskForm.dateValid}" style="color:red;"></div><!-- -->
+
     <!-- -->
     <button type="submit">登録</button>
     <a href="/">戻る</a>
@@ -90,6 +92,7 @@
     <label for="task_end">終了日</label>
     <input type="date" id="task_end" name="end" th:value="${taskForm.end}" required><br>
     <div th:if="${#fields.hasErrors('end')}" th:errors="${taskForm.end}" style="color:red;"></div>
+    <div th:if="${#fields.hasErrors('*')}" th:errors="${taskForm.dateValid}" style="color:red;"></div><!-- -->
     <!-- -->
     <button type="submit">更新</button>
     <a href="/">戻る</a>

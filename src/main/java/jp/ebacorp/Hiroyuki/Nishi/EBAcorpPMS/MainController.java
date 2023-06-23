@@ -83,13 +83,14 @@ public class MainController {
     }
 
 
-    @GetMapping("/newtask")
-    public String getNewTask(TaskForm taskForm,
-                             AttachFileEntity attachFileEntity){
+    @GetMapping("/ticket/new")
+    public String getNewTask(TaskForm taskForm
+                             //AttachFileEntity attachFileEntity
+                             ){
         return "ticketdetail";
     }
 
-    @PostMapping("/newtask")
+    @PostMapping("/ticket/new")
     public String postNewTask(@Validated TaskForm taskForm,
                            BindingResult bindingResult,
                            Model model){
