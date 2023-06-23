@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -108,8 +109,8 @@ public class MainController {
     @GetMapping("/ticket/{id}")
     public String getTaskDetail(@PathVariable Integer id,
                                  TaskForm taskForm,
-                                 Model model,
-                                AttachFileEntity attachFileEntity){
+                                 Model model
+                                ){
 
         Optional<TaskForm> taskFormFromDB = TaskFormRepository.findById(id);
         List<AttachFileEntity> attachFileEntities = attachFileRepository.findByTicketidEquals(id);
@@ -126,16 +127,25 @@ public class MainController {
                                  @Validated TaskForm taskForm,
                                  BindingResult bindingResult,
                                  Model model){
+        System.out.println("postTaskDetail");
+
         if (!bindingResult.hasErrors()) {
-            try{
+            try {
                 TaskFormRepository.save(taskForm);
                 model.addAttribute("message", "タスク更新に成功しました");
-            }catch(Exception e){
+            } catch (Exception e) {
                 model.addAttribute("message", "タスク更新に失敗しました");
             }
         }
-        return "ticketdetail";
 
+        Optional<TaskForm> taskFormFromDB = TaskFormRepository.findById(id);
+        List<AttachFileEntity> attachFileEntities = attachFileRepository.findByTicketidEquals(id);
+
+        //taskForm = taskFormFromDB.get();
+
+        model.addAttribute("taskForm", taskForm);
+        model.addAttribute("attachFileEntity", attachFileEntities);
+        return "ticketdetail";
 
     }
 

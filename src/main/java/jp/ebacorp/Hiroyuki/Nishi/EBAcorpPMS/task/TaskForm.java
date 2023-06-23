@@ -5,8 +5,12 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 @Entity
 @Table(name = "Task_Data")
@@ -40,5 +44,20 @@ public class TaskForm {
 
     @Length(min=0, max = 65535)
     private String detail;
+
+    @AssertTrue(message = "終了日が開始日より前になっております")
+    public boolean isDateValid() throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date dateStart = dateFormat.parse(this.start);
+        Date dateEnd = dateFormat.parse(this.end);
+
+        if(!dateEnd.before(dateStart)){
+            return true;
+        }else{
+            return false;
+
+        }
+    }
 
 }
