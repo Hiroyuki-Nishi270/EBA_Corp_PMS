@@ -171,12 +171,12 @@ public class MainController {
         return "redirect:/ticket/" + id;
     }
 
-    @GetMapping("/files/{id}/{filename:.+}")
+    @GetMapping("/file/{id}/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename,
                                               @PathVariable Integer id) {
 
-        Resource file = storageService.loadAsResource(filename);
+        Resource file = storageService.loadAsResource(filename, id);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }

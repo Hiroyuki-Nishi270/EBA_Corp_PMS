@@ -91,14 +91,14 @@ public class FileSystemStorageService {
 	}
 
 
-	public Path load(String filename) {
-		return rootLocation.resolve(filename);
+	public Path load(String filename, Integer id) {
+		return rootLocation.resolve(id.toString()).resolve(filename);
 	}
 
 
-	public Resource loadAsResource(String filename) {
+	public Resource loadAsResource(String filename, Integer id) {
 		try {
-			Path file = load(filename);
+			Path file = load(filename, id);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
