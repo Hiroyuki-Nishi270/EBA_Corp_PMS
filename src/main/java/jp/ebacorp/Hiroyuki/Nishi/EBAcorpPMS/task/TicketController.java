@@ -47,8 +47,7 @@ public class TicketController {
 
     @GetMapping("/{id}")
     public String getTaskDetail(@PathVariable Integer id,
-                                Model model
-    ){
+                                Model model){
 
         Optional<TaskForm> taskFormFromDB = TaskFormRepository.findById(id);
         List<AttachFileEntity> attachFileEntities = attachFileRepository.findByTicketidEquals(id);

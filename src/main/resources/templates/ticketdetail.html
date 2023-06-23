@@ -68,7 +68,7 @@
     </thead>
     <tbody>
     <tr th:each="file : ${attachFileEntity}">
-        <td><a th:href="@{'/file/'+ ${taskForm.id} + '/'+ ${file.filename}}"　th:text="${file.filename}"></a></td>
+        <td><a th:href="@{'/file/'+ ${taskForm.id} + '/'+ ${file.filename}}" th:text="${file.filename}"></a></td>
     </tr>
     </tbody>
 </table>
