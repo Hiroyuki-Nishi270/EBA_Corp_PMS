@@ -51,7 +51,6 @@ public class MainController {
     @GetMapping
     String getIndex(Model model){
         List<TaskForm> TaskList = (List<TaskForm>) TaskFormRepository.findAll();
-        //System.out.println(TaskList);
 
         model.addAttribute("taskTest",TaskList);
         model.addAttribute("JSFS", "JavascriptFromSpring");
@@ -98,8 +97,6 @@ public class MainController {
     @GetMapping("/newtask")
     public String getNewTask(TaskForm taskForm,
                              AttachFile attachFile){
-        //System.out.println(taskForm);
-        //System.out.println(attachFile);
         return "ticketdetail";
     }
 
@@ -108,9 +105,7 @@ public class MainController {
                            BindingResult bindingResult,
                            Model model){
         if (!bindingResult.hasErrors()) {
-            //System.out.println("No validation error");
             try{
-                //System.out.println(taskForm);
 
                 TaskFormRepository.save(taskForm);
                 model.addAttribute("message", "タスク登録に成功しました");
@@ -144,7 +139,6 @@ public class MainController {
                                  Model model){
         if (!bindingResult.hasErrors()) {
             try{
-                //System.out.println(taskForm);
                 TaskFormRepository.save(taskForm);
                 model.addAttribute("message", "タスク更新に成功しました");
             }catch(Exception e){
@@ -160,9 +154,6 @@ public class MainController {
     public String postFileUpload(@PathVariable Integer id,
                                  @RequestParam("attachFile") MultipartFile file,
                                  RedirectAttributes redirectAttributes){
-
-        System.out.println(id);
-        System.out.println(file);
         storageService.store(file, id);
 
         redirectAttributes.addFlashAttribute("message",
