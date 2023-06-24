@@ -1,4 +1,4 @@
-package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
+package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt;
 
 import jakarta.persistence.*;
 import lombok.Data;

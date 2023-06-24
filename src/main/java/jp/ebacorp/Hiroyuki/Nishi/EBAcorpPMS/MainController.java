@@ -2,6 +2,8 @@ package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
 
 
 import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.CRUDTaskFormRepository;
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.CRUDGanttTaskDataRepository;
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.GanttTaskData;
 import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.TaskForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
