@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
+    <link rel="stylesheet" th:href="@{/css/frappe-gantt.css}" />
+    <script th:src="@{/js/frappe-gantt.min.js}"></script>
     <style>
 		body {
 			font-family: sans-serif;
@@ -20,8 +22,6 @@
 			text-align: center;
 		}
 	</style>
-    <link rel="stylesheet" th:href="@{/css/frappe-gantt.css}" />
-    <script th:src="@{/js/frappe-gantt.js}"></script>
 </head>
 <body>
 <H1>EBA Corp Project Management System</H1>
@@ -67,71 +67,29 @@
     <div class="gantt-target"></div>
     <button id="resetGantt" type="reset" class="btn btn-sm btn-light">Reset</button>
 </div>
-<input type="hidden" id="task0start" value="2018-10-01 0:00:00">
+<!--<input type="hidden" id="task0start" value="2018-10-01 0:00:00"> -->
 <script th:inline="javascript">
     let ganttTaskList = /*[[${ganttTaskList}]]*/ null;
-
-    		let gantt_chart = new Gantt(".gantt-target", ganttTaskList, {
-			on_click: task => {
-				console.log(task);
+    let gantt_chart = new Gantt(".gantt-target", ganttTaskList, {
+			on_click: (task) => {
+				//console.log(task);
 			},
 			on_date_change: (task, start, end) => {
-				console.log(task, start, end);
-				console.log(`${task.id} moving`);
-				if(task.id == 'Task 0'){
-					let task0start = document.querySelector('#task0start');
-					task0start.value = `${start.getFullYear()}-${start.getMonth()+1}-${start.getDate()} 00:00:00}`;
-				}
-				console.log(`${task.id} moved`);
+				//console.log(task, start, end);
 			},
 			on_progress_change: (task, progress) => {
-				console.log(task, progress);
+				//console.log(task, progress);
 			},
 			on_view_change: (mode) => {
-				console.log(mode);
+				//console.log(mode);
 			},
 			date_format: 'YYYY-MM-DD',
-			view_mode: 'Month',
-			language: 'ja-JP',
-			custom_popup_html: function(task) {
-	  			// the task object will contain the updated
-	  			// dates and progress value .format('MMM D')
-				console.log(task);
-				//console.log(`start:(${typeof(task.start)})${task.start},end:(${typeof(task.end)})${task.end}`);
-				//console.log(`_start:(${typeof(task._start)})${task._start},_end:(${typeof(task._end)})${task._end}`);
+			view_mode: 'Day',
+			language: 'ja-JP'
 
-
-
-	 			const end_date = `${task._end.getMonth() + 1}月${task._end.getDate()}日`;
-
-	 			//
-
-	  			return `
-					<div class="details-container">
-	  					<h5>${task.name}</h5>
-	  					<p>期限: ${end_date}</p>
-	  					<p>${task.progress}% 完了</p>
-					</div>
- 				 `;
- 				 //console.log(task._end);
-			}
 		});
 		console.log(gantt_chart);
 
-	/**
-	let qd = document.querySelector('#view_mode_qd');
-	qd.addEventListener('click',function(){
-		gantt_chart.change_view_mode('Quarter Day')
-		console.log(qd.textContent);
-	},false);
-
-	let hd = document.querySelector('#view_mode_hd');
-	hd.addEventListener('click',function(){
-		gantt_chart.change_view_mode('Half Day')
-		console.log(hd.textContent);
-	},false);
-
-**/
 	let vmd = document.querySelector('#view_mode_d');
 	vmd.addEventListener('click',function(){
 		gantt_chart.change_view_mode('Day')
