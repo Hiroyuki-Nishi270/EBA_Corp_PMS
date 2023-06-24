@@ -16,10 +16,10 @@ public class GanttTaskData {
     private Integer id;
 
     //start: '2018-10-01 0:00:00', //タスクの開始(時間0:00:00はデフォルトで入れなくてはいけない)
-    private Calendar start;
+    private String start;
 
     //end: '2018-10-08 23:59:59', //タスクの終了(時間23:59:59はデフォルトで入れなくてはいけない)
-    private Calendar end;
+    private String end;
 
     //name: 'ウェブのリデザイン',    //タスク名
     private String name;

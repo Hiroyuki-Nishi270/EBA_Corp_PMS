@@ -23,11 +23,11 @@ public class MainController {
 
     @GetMapping
     String getIndex(Model model){
-        List<TaskForm> TaskList = (List<TaskForm>) TaskFormRepository.findAll();
-        List<GanttTaskData> GanttTaskList = (List<GanttTaskData>) GanttTaskDataRepository.findAll();
+        //List<TaskForm> TaskList = (List<TaskForm>) TaskFormRepository.findAll();
+        List<GanttTaskData> TaskList = (List<GanttTaskData>) GanttTaskDataRepository.findAll();
 
         model.addAttribute("taskList",TaskList);
-        model.addAttribute("ganttTaskList",GanttTaskList);
+        model.addAttribute("ganttTaskList",TaskList);
         return "index";
     }
 
