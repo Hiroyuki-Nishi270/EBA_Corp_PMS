@@ -72,16 +72,16 @@
     let ganttTaskList = /*[[${ganttTaskList}]]*/ null;
     let gantt_chart = new Gantt(".gantt-target", ganttTaskList, {
 			on_click: (task) => {
-				//console.log(task);
+				console.log(task);
 			},
 			on_date_change: (task, start, end) => {
-				//console.log(task, start, end);
+				console.log(task, start, end);
 			},
 			on_progress_change: (task, progress) => {
-				//console.log(task, progress);
+				console.log(task, progress);
 			},
 			on_view_change: (mode) => {
-				//console.log(mode);
+				console.log(mode);
 			},
 			date_format: 'YYYY-MM-DD',
 			view_mode: 'Day',

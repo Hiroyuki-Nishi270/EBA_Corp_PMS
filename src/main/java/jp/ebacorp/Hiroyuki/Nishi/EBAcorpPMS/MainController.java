@@ -16,18 +16,14 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    CRUDTaskFormRepository TaskFormRepository;
-
-    @Autowired
     CRUDGanttTaskDataRepository GanttTaskDataRepository;
 
     @GetMapping
     String getIndex(Model model){
-        //List<TaskForm> TaskList = (List<TaskForm>) TaskFormRepository.findAll();
-        List<GanttTaskData> TaskList = (List<GanttTaskData>) GanttTaskDataRepository.findAll();
+        List<GanttTaskData> Tasks = (List<GanttTaskData>) GanttTaskDataRepository.findAll();
 
-        model.addAttribute("taskList",TaskList);
-        model.addAttribute("ganttTaskList",TaskList);
+        model.addAttribute("taskList",Tasks);
+        model.addAttribute("ganttTaskList",Tasks);
         return "index";
     }
 
