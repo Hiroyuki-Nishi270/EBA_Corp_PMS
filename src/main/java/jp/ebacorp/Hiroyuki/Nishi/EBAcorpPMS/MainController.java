@@ -16,12 +16,16 @@ public class MainController {
     @Autowired
     CRUDTaskFormRepository TaskFormRepository;
 
+    @Autowired
+    CRUDGanttTaskDataRepository GanttTaskDataRepository;
+
     @GetMapping
     String getIndex(Model model){
         List<TaskForm> TaskList = (List<TaskForm>) TaskFormRepository.findAll();
+        List<GanttTaskData> GanttTaskList = (List<GanttTaskData>) GanttTaskDataRepository.findAll();
 
-        model.addAttribute("taskTest",TaskList);
-        model.addAttribute("JSFS", "JavascriptFromSpring");
+        model.addAttribute("taskList",TaskList);
+        model.addAttribute("ganttTaskList",GanttTaskList);
         return "index";
     }
 

@@ -24,117 +24,54 @@
     <script th:src="@{/js/frappe-gantt.js}"></script>
 </head>
 <body>
-<H1>index.html</H1>
+<H1>EBA Corp Project Management System</H1>
 <!--ログアウト-->
 <form class="form-signin" method="post" th:action="@{/logout}">
   <button id="logout-button" class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
 </form>
-<a th:href="@{/ticket/new}" id="newtask">新しいタスク</a>
 
 <!--タスクリスト -->
+<div class="container">
+<h2 class="heading">タスクリスト</h2>
 <table>
     <thead>
         <tr>
             <th>id</th>
-            <th>overview</th>
+            <th>タスク名</th>
+            <th>進捗</th>
+            <th>開始日</th>
+            <th>終了日</th>
         </tr>
     </thead>
     <tbody>
-        <tr th:each="task : ${taskTest}">
+        <tr th:each="task : ${taskList}">
             <td th:text="${task.id}"></td>
             <td><a th:href="@{'/ticket/' + ${task.id}}" th:text="${task.name}"></a></td>
+            <td th:text="${task.progress} + '%'"></td>
+            <td th:text="${task.start}"></td>
+            <td th:text="${task.end}"></td>
         </tr>
     </tbody>
 </table>
+    <a th:href="@{/ticket/new}" id="newtask">新しいタスクを作成</a>
+</div>
 <!--ガントチャート-->
 <div class="container">
-    <h2 class="heading">Interactive Gantt Chart entirely made in SVG!</h2>
-    <!-- Gantt Chart本体-->
-    <div class="gantt-target"></div>
+    <h2 class="heading">ガントチャート</h2>
     <div id="view_mode_buttons" class="mx-auto mt-3 btn-group" role="group">
         <button id="view_mode_d" type="button" class="btn btn-sm btn-light">Day</button>
         <button id="view_mode_w" type="button" class="btn btn-sm btn-light">Week</button>
         <button id="view_mode_m" type="button" class="btn btn-sm btn-light">Month</button>
     </div>
+    <!-- Gantt Chart本体-->
+    <div class="gantt-target"></div>
     <button id="resetGantt" type="reset" class="btn btn-sm btn-light">Reset</button>
 </div>
-
 <input type="hidden" id="task0start" value="2018-10-01 0:00:00">
-<script>
-
-			let tasks = [
-			{
-				"start": '2018-10-01 0:00:00',
-				end: '2018-10-08 23:59:59',
-				name: 'ウェブのリデザイン',
-				id: "0",
-				progress: 20
-
-			},
-			{
-				start: '2018-10-03',
-				end: '2018-10-06',
-				name: 'Write new content',
-				id: "1",
-				progress: 5,
-				dependencies: 'Task 0'
-			},
-			{
-				start: '2018-10-04',
-				end: '2018-10-08',
-				name: 'Apply new styles',
-				id: "2",
-				progress: 10,
-				dependencies: '1'
-			},
-			{
-				start: '2018-10-08',
-				end: '2018-10-09',
-				name: 'Review',
-				id: "3",
-				progress: 5,
-				dependencies: '2'
-			},
-			{
-				start: '2018-10-08',
-				end: '2018-10-10',
-				name: 'Deploy',
-				id: "4",
-				progress: 0,
-				dependencies: '2'
-			},
-			{
-				start: '2018-10-11',
-				end: '2018-10-11',
-				name: 'Go Live!',
-				id: "5",
-				progress: 40,
-				dependencies: '4',
-				custom_class: 'bar-milestone'
-			},
-			{
-				start: '2019-01-05',
-				end: '2019-10-12',
-				name: 'Long term task',
-				id: "6",
-				progress: 0,
-				dependencies: '4,'
-			}
-		]
-</script>
 <script th:inline="javascript">
-    console.log('Javascript');
-    let text = [[${JSFS}]];
-    console.log(text);
+    let ganttTaskList = /*[[${ganttTaskList}]]*/ null;
 
-    let taskList = /*[[${taskTest}]]*/ null;
-    console.log(taskList);
-    console.log(taskList.forEach(function(value,index, array){
-        console.log(value);
-    }));
-    console.log(taskList[0].overview);
-
-    		let gantt_chart = new Gantt(".gantt-target", tasks, {
+    		let gantt_chart = new Gantt(".gantt-target", ganttTaskList, {
 			on_click: task => {
 				console.log(task);
 			},
@@ -221,64 +158,5 @@
 	},false);
 </script>
 
-
-<!--タスク入力フォーム-->
-<!--工事中
-<form method="get" th:action="@{/newtask}">
-    <button class="btn btn-lg btn-primary btn-block" type="submit">新規タスク作成</button>
-</form>
--->
-<!--ガントチャート-->
-<H2>現在のタスク</H2>
-<form action="/add">
-    <!---->
-    <label>概要</label>
-    <input name="task" type="text" maxlength="255"/>
-
-    <label>期限</label>
-    <input name="deadline" type="date" />
-    <input type="submit" vaule="登録" />
-</form>
-<!--タスクリスト-->
-<!--
-<H2>残タスク</H2>
-<table>
-<thead>
-<tr>
-    <th>ID</th>
-    <th>タスク概要</th>
-    <th>期限</th>
-    <th>状態</th>
-    <th>関連チケット</th>
-</tr>
-</thead>
-<tbody>
-<tr th:each="task : ${taskList}">
-    <td class="hidden" th:text="${task.id}"></td>
-    <td th:text="${task.task}"></td>
-    <td width="100px" th:text="${task.deadline}"></td>
-    <td width="50px" th:text="${task.done} ? '完了': '未完了'"></td>
-    <td width="50px">
-        <button type="submit" id="update_button" onclick="
-                            let row = this.parentElement.parentElement;
-                            getElementById('update_id').value=row.cells[0].firstChild.data;
-                            getElementById('update_task').value=row.cells[1].firstChild.data;
-                            getElementById('update_deadline').value=row.cells[2].firstChild.data;
-                            getElementById('update_status').selectedIndex=(row.cells[3].firstChild.data=='完了')?1:0;
-                            var dialog = getElementById('updateDialog');
-                            dialog.style.left = ((window.innerWidth - 500) / 2) + 'px';
-                            dialog.style.display = 'block';
-                        ">更新</button>
-    </td>
-    <td width="50px">
-        <form action="/delete">
-            <button type="submit" id="delete_button">削除</button>
-            <input type="hidden" name="id" th:value="${task.id}" />
-        </form>
-    </td>
-</tr>
-</tbody>
-</table>
--->
 </body>
 </html>
