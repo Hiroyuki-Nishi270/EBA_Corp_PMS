@@ -3,13 +3,10 @@ package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Calendar;
-import java.util.Date;
-
 @Entity
-@Table(name = "Gantt_Task_Data")
+@Table(name = "frappe_gantt_task_data")
 @Data
-public class GanttTaskData {
+public class FrappeGanttTaskData {
     //フィールド
 
     @Id

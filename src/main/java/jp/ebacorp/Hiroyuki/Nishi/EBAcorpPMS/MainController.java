@@ -1,8 +1,8 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
 
 
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.CRUDGanttTaskDataRepository;
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.GanttTaskData;
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.CRUDFrappeGanttTaskDataRepository;
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.FrappeGanttTaskData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +14,12 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    CRUDGanttTaskDataRepository GanttTaskDataRepository;
+    CRUDFrappeGanttTaskDataRepository GanttTaskDataRepository;
 
     @GetMapping
     String getIndex(Model model){
-        List<GanttTaskData> Tasks = (List<GanttTaskData>) GanttTaskDataRepository.findAll();
-        List<GanttTaskData> TasksForGantt = (List<GanttTaskData>) GanttTaskDataRepository.findAllByOrderByStart();
+        List<FrappeGanttTaskData> Tasks = (List<FrappeGanttTaskData>) GanttTaskDataRepository.findAll();
+        List<FrappeGanttTaskData> TasksForGantt = (List<FrappeGanttTaskData>) GanttTaskDataRepository.findAllByOrderByStart();
 
         model.addAttribute("taskList",Tasks);
         model.addAttribute("ganttTaskList",Tasks);
