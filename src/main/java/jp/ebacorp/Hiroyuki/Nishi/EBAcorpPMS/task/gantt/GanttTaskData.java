@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @Table(name = "Gantt_Task_Data")
