@@ -21,8 +21,8 @@ public class MainController {
         List<FrappeGanttTaskData> Tasks = (List<FrappeGanttTaskData>) FrappeGanttTaskDataRepository.findAll();
         List<FrappeGanttTaskData> TasksForGantt = FrappeGanttTaskDataRepository.findAllByOrderByStartAscEndAsc();
 
-        model.addAttribute("taskList",TasksForGantt);
-        model.addAttribute("ganttTaskList",TasksForGantt);
+        model.addAttribute("taskList",Tasks);
+        model.addAttribute("ganttTaskList",Tasks);
         return "index";
     }
 

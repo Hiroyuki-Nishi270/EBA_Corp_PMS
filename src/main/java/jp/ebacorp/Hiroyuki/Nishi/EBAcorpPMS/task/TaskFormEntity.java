@@ -8,14 +8,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 @Entity
 @Table(name = "Task_Data")
 @Data
-public class TaskForm {
+public class TaskFormEntity {
     //フィールド
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

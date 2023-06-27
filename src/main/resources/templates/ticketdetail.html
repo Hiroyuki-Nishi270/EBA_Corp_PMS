@@ -8,52 +8,83 @@
 <h2 class="heading">タスク詳細</h2>
 <div th:if="${message != null}" th:text="${message}"></div>
 <!--タスク-->
-<form method="post" th:action="${taskForm.id == null}? @{/ticket/new} : @{'/ticket/' + ${taskForm.id}}" th:object="${taskForm}">
+<form method="post" th:action="${taskFormEntity.id == null}? @{/ticket/new} : @{'/ticket/' + ${taskFormEntity.id}}" th:object="${taskFormEntity}">
     <label for="task_id">タスクid</label>
-    <div id="task_id" th:text="${taskForm.id == null}? '新規タスク(未登録)' : ${taskForm.id}"></div>
-    <input type="hidden" name="id" th:value="${taskForm.id}">
+    <div id="task_id" th:text="${taskFormEntity.id == null}? '新規タスク(未登録)' : ${taskFormEntity.id}"></div>
+    <input type="hidden" name="id" th:value="${taskFormEntity.id}">
 
     <label for="task_name">タスク名</label>
-    <input type="text" id="task_name" name="name" required th:value="${taskForm.name}" maxlength="255"><br>
-    <div th:if="${#fields.hasErrors('name')}" th:errors="${taskForm.name}" style="color:red;"></div>
+    <input type="text" id="task_name" name="name" required th:value="${taskFormEntity.name}" maxlength="255"><br>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="${taskFormEntity.name}" style="color:red;"></div>
 
     <label for="task_detail">タスク内容</label>
-    <textarea id="task_detail" name="detail" th:text="${taskForm.detail}" maxlength="65535" title="65535文字以内に納めてください"></textarea>
-    <div th:if="${#fields.hasErrors('detail')}" th:errors="${taskForm.detail}" style="color:red;"></div>
+    <textarea id="task_detail" name="detail" th:text="${taskFormEntity.detail}" maxlength="65535" title="65535文字以内に納めてください"></textarea>
+    <div th:if="${#fields.hasErrors('detail')}" th:errors="${taskFormEntity.detail}" style="color:red;"></div>
 
     <label for="task_progress">進捗</label>
-    <input type="number" id="task_progress" name="progress" th:value="${taskForm.progress == null}? '0':${taskForm.progress}" min="0" max="100" step="10"required><br>
-    <div th:if="${#fields.hasErrors('progress')}" th:errors="${taskForm.progress}" style="color:red;"></div>
+    <input type="number" id="task_progress" name="progress" th:value="${taskFormEntity.progress == null}? '0':${taskFormEntity.progress}" min="0" max="100" step="10"required><br>
+    <div th:if="${#fields.hasErrors('progress')}" th:errors="${taskFormEntity.progress}" style="color:red;"></div>
 
-    <!--Dependancies（後に回す）-->
-    <!--
-	    <label for="task_dependancies">先行タスク</label>
-    		<form method="POST" enctype="multipart/form-data" th:action="@{/fileupload}">
-			<table>
-				<tr><td>File to upload:</td><td><input type="file" name="file"  id="task_dependancies" name="task_dependancies" th:value="${taskForm.dependancies}"/></td></tr>
-				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-			</table>
-		</form>
-    <input type="number" id="task_dependancies" name="task_dependancies" th:value="${taskForm.dependancies}"><br>
--->
+    <!--Dependency-->
+    <label for="task_dependencies">先行タスク</label>
+    <input id="task_dependencies" type="hidden" th:value="${taskFormEntity.dependencies}">
+    <ul id="dependencies_list">
+        <li class="dependency">テスト1</li>
+        <li class="dependency">テスト2</li>
+    </ul>
+        <!--Javascriptで実装する-->
+    <script th:inline="javascript">
+        //let taskFormEntity = /*[[${taskFormEntity}]]*/ null;
+        //let taskListShort = /*[[${taskListShort}]]*/ null;
+        let taskFormEntity = {"id":3,"start":"2023-06-24","end":"2023-06-28","name":"\u65B0\u898F","progress":70,"dependencies":"1,2","detail":"1","dateValid":true};
+        let taskListShort = [{"id":"1","start":"2023-06-21","end":"2023-06-23","name":"\u30C6\u30B9\u30C8\u540D","progress":0,"dependencies":null},{"id":"2","start":"2023-06-22","end":"2023-06-24","name":"\u30BF\u30B9\u30AF\u540D","progress":0,"dependencies":"1"},{"id":"3","start":"2023-06-24","end":"2023-06-28","name":"\u65B0\u898F","progress":70,"dependencies":"1,2"},{"id":"4","start":"2023-06-22","end":"2023-06-23","name":"\u30C6\u30B9\u30C8\u540D","progress":0,"dependencies":"3"}];
+        let dependencies_list = document.querySelector("#dependencies_list");
+
+        console.log("taskFormEntity : ");
+        console.log(taskFormEntity);
+        console.log("taskListShort : ");
+        console.log(taskListShort);
+        console.log(dependencies_list.children);
+
+        
+        
+        let dependencies = taskFormEntity.dependencies.split(",");
+        console.log(dependencies);
+
+        dependencies.forEach(element => {
+            console.log("element:" + element);
+
+            taskListShort.forEach(seeker =>{
+                if(seeker.id == element){
+                    console.log(seeker);
+                    console.log("id : "+ seeker.id);
+                    console.log("name : "+ seeker.name);
+//ticket/1
+                }
+            })
+        });
+
+        console.log(taskListShort[0].id);
+
+    </script>
     <label for="task_start">開始日</label>
-    <input type="date" id="task_start" name="start" th:value="${taskForm.start}" required><br>
-    <div th:if="${#fields.hasErrors('start')}" th:errors="${taskForm.start}" style="color:red;"></div>
+    <input type="date" id="task_start" name="start" th:value="${taskFormEntity.start}" required><br>
+    <div th:if="${#fields.hasErrors('start')}" th:errors="${taskFormEntity.start}" style="color:red;"></div>
 
     <label for="task_end">終了日</label>
-    <input type="date" id="task_end" name="end" th:value="${taskForm.end}" required><br>
-    <div th:if="${#fields.hasErrors('end')}" th:errors="${taskForm.end}" style="color:red;"></div>
-    <div th:if="${#fields.hasErrors('*')}" th:errors="${taskForm.dateValid}" style="color:red;"></div><!-- -->
+    <input type="date" id="task_end" name="end" th:value="${taskFormEntity.end}" required><br>
+    <div th:if="${#fields.hasErrors('end')}" th:errors="${taskFormEntity.end}" style="color:red;"></div>
+    <div th:if="${#fields.hasErrors('*')}" th:errors="${taskFormEntity.dateValid}" style="color:red;"></div><!-- -->
 
     <!-- -->
-    <button type="submit" th:text="${taskForm.id == null}? '登録' : '更新'"></button>
+    <button type="submit" th:text="${taskFormEntity.id == null}? '登録' : '更新'"></button>
     <a href="/">戻る</a>
 </form>
 <!--添付ファイルアップロード -->
-<form method="POST" enctype="multipart/form-data" th:action="@{'/file/upload/' + ${taskForm.id}}" th:object="${attachFileEntity}" th:if="${taskForm.id != null}">
+<form method="POST" enctype="multipart/form-data" th:action="@{'/file/upload/' + ${taskFormEntity.id}}" th:object="${attachFileEntity}" th:if="${taskFormEntity.id != null}">
     <table>
         <tr>
-            <td>File to upload:</td>
+            <td>添付ファイルアップロード</td>
             <td><input type="file" id="attachFileEntity" name="attachFileEntity"/></td>
             <td><input type="submit" value="アップロード" /></td>
         </tr>
@@ -68,7 +99,7 @@
     </thead>
     <tbody>
     <tr th:each="file : ${attachFileEntity}">
-        <td><a th:href="@{'/file/'+ ${taskForm.id} + '/'+ ${file.filename}}" th:text="${file.filename}"></a></td>
+        <td><a th:href="@{'/file/'+ ${taskFormEntity.id} + '/'+ ${file.filename}}" th:text="${file.filename}"></a></td>
     </tr>
     </tbody>
 </table>
