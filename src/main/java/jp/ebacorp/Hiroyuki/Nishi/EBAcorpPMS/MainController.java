@@ -14,15 +14,15 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    CRUDFrappeGanttTaskDataRepository GanttTaskDataRepository;
+    CRUDFrappeGanttTaskDataRepository FrappeGanttTaskDataRepository;
 
     @GetMapping
     String getIndex(Model model){
-        List<FrappeGanttTaskData> Tasks = (List<FrappeGanttTaskData>) GanttTaskDataRepository.findAll();
-        List<FrappeGanttTaskData> TasksForGantt = (List<FrappeGanttTaskData>) GanttTaskDataRepository.findAllByOrderByStart();
+        List<FrappeGanttTaskData> Tasks = (List<FrappeGanttTaskData>) FrappeGanttTaskDataRepository.findAll();
+        List<FrappeGanttTaskData> TasksForGantt = FrappeGanttTaskDataRepository.findAllByOrderByStartAscEndAsc();
 
-        model.addAttribute("taskList",Tasks);
-        model.addAttribute("ganttTaskList",Tasks);
+        model.addAttribute("taskList",TasksForGantt);
+        model.addAttribute("ganttTaskList",TasksForGantt);
         return "index";
     }
 

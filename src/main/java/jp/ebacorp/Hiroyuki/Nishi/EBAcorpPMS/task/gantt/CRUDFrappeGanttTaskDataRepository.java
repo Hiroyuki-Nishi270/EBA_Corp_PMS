@@ -5,4 +5,6 @@ import java.util.List;
 
 public interface CRUDFrappeGanttTaskDataRepository extends CrudRepository<FrappeGanttTaskData, Integer> {
     public List<FrappeGanttTaskData> findAllByOrderByStart();
+    public List<FrappeGanttTaskData> findAllByOrderByStartAscEndAsc();
+
 }
