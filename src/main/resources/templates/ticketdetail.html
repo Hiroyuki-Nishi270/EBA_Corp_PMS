@@ -4,9 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <title>タスク詳細</title>
+    <style type="text/css">
+        #dependency_table {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
+    <!--先行タスク元データ-->
+    <input id="dependency_original" type="hidden" value="">
+    <!--先行タスク用タスクリスト-->
+    <input id="task_list" type="hidden" value="">
+
     <h2 class="heading">タスク詳細</h2>
     <div th:if="${message != null}" th:text="${message}"></div>
     <!--タスク-->
@@ -33,9 +43,9 @@
 
         <!--Dependency-->
         <label for="task_dependencies">先行タスク</label>
-        <input id="task_dependencies" type="hidden" th:value="${taskFormEntity.dependencies}">
+        <input id="task_dependencies" type="hidden" name="dependencies" th:value="${taskFormEntity.dependencies}">
         <!--Javascriptで実装する-->
-        <table>
+        <table id="dependency_table">
             <thead>
                 <tr>
                     <th>id</th>
@@ -43,80 +53,36 @@
                     <th>進捗</th>
                     <th>開始日</th>
                     <th>終了日</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody id="dependency_items">
-                <!--
-        <tr class="dependency_item">
-            
-            <td class="dependency_item_id"></td>
-            <td class="dependency_item_name"><a href="" class="dependency_item_link"></a></td>
-            <td class="dependency_item_progress"></td>
-            <td class="dependency_item_start"></td>
-            <td class="dependency_item_end"></td>
-        </tr>
-        -->
+                <!-- Javascript-->
             </tbody>
         </table>
+        <button type="button" name="">先行タスク追加</button><br>
+        <script src="../static/js/ticketdetail.js"></script>
         <script th:inline="javascript">
-            let taskFormEntity = /*[[${taskFormEntity}]]*/ null;
-            let taskListShort = /*[[${taskListShort}]]*/ null;
-            
-            /**
+            //初期化処理
+
+            //let taskFormEntity = /*[[${taskFormEntity}]]*/ null;
+            //let taskListShort = /*[[${taskListShort}]]*/ null;
+
             //let taskFormEntity = { "id": 3, "start": "2023-06-24", "end": "2023-06-28", "name": "\u65B0\u898F", "progress": 70, "dependencies": "1,2", "detail": "1", "dateValid": true };
-            //let taskListShort = [{ "id": "1", "start": "2023-06-21", "end": "2023-06-23", "name": "\u30C6\u30B9\u30C8\u540D", "progress": 0, "dependencies": null }, { "id": "2", "start": "2023-06-22", "end": "2023-06-24", "name": "\u30BF\u30B9\u30AF\u540D", "progress": 0, "dependencies": "1" }, { "id": "3", "start": "2023-06-24", "end": "2023-06-28", "name": "\u65B0\u898F", "progress": 70, "dependencies": "1,2" }, { "id": "4", "start": "2023-06-22", "end": "2023-06-23", "name": "\u30C6\u30B9\u30C8\u540D", "progress": 0, "dependencies": "3" }];
+            let taskListShort = [{ "id": "1", "start": "2023-06-21", "end": "2023-06-23", "name": "\u30C6\u30B9\u30C8\u540D", "progress": 0, "dependencies": null }, { "id": "2", "start": "2023-06-22", "end": "2023-06-24", "name": "\u30BF\u30B9\u30AF\u540D", "progress": 0, "dependencies": "1" }, { "id": "3", "start": "2023-06-24", "end": "2023-06-28", "name": "\u65B0\u898F", "progress": 70, "dependencies": "1,2" }, { "id": "4", "start": "2023-06-22", "end": "2023-06-23", "name": "\u30C6\u30B9\u30C8\u540D", "progress": 0, "dependencies": "3" }];
 
-            **/
-            console.log("taskFormEntity : ");
-            console.log(taskFormEntity);
-            console.log("taskListShort : ");
-            console.log(taskListShort);
+            //let taskFormEntity = { "id": 3, "start": "2023-06-24", "end": "2023-06-28", "name": "\u65B0\u898F", "progress": 70, "dependencies": null, "detail": "1", "dateValid": true };
+            let taskFormEntity = { "id": 3, "start": "2023-06-24", "end": "2023-06-28", "name": "\u65B0\u898F", "progress": 70, "dependencies": 1, "detail": "1", "dateValid": true };
 
 
-            taskFormEntity.dependencies.split(",").forEach(element => {
-                let dependency_items = document.querySelector('#dependency_items');
+            document.querySelector('#dependency_original').value = taskFormEntity.dependencies;
+            document.querySelector('#task_dependencies').value = taskFormEntity.dependencies;
+            document.querySelector('#task_list').value = JSON.stringify(taskListShort);
 
-                let dependency_item = document.createElement('tr');
-                let dependency_item_id = document.createElement('td');
-                let dependency_item_name = document.createElement('td');
-                let dependency_item_progress = document.createElement('td');
-                let dependency_item_start = document.createElement('td');
-                let dependency_item_end = document.createElement('td');
-                let dependency_item_link = document.createElement('a');
-                console.log("element:" + element);
+            createDependencies(document.querySelector('#dependency_original').value, document.querySelector('#task_list').value);//先行タスク表示の初期化
 
-                taskListShort.forEach(seeker => {
-                    if (seeker.id == element) {
-                        console.log(seeker);
-                        console.log("id    :" + seeker.id);
-                        console.log("name  :" + seeker.name);
-                        console.log("start :" + seeker.start);
-                        console.log("end   :" + seeker.end);
-
-                        dependency_item_link.innerText = seeker.name;
-                        dependency_item_link.setAttribute('href', '/ticket/' + seeker.id);
-
-                        dependency_item_id.innerText = seeker.id;
-                        dependency_item_name.appendChild(dependency_item_link);
-                        dependency_item_progress.innerText = seeker.progress;
-                        dependency_item_start.innerText = seeker.start;
-                        dependency_item_end.innerText = seeker.end;
-
-                        dependency_item.append(dependency_item_id);
-                        dependency_item.append(dependency_item_name);
-                        dependency_item.append(dependency_item_progress);
-                        dependency_item.append(dependency_item_start);
-                        dependency_item.append(dependency_item_end);
-
-
-                        console.log(dependency_item);
-                        dependency_items.append(dependency_item);
-
-                        console.log(dependency_items);
-                    }
-                })
-            });
         </script>
+
         <label for="task_start">開始日</label>
         <input type="date" id="task_start" name="start" th:value="${taskFormEntity.start}" required><br>
         <div th:if="${#fields.hasErrors('start')}" th:errors="${taskFormEntity.start}" style="color:red;"></div>
@@ -124,7 +90,8 @@
         <label for="task_end">終了日</label>
         <input type="date" id="task_end" name="end" th:value="${taskFormEntity.end}" required><br>
         <div th:if="${#fields.hasErrors('end')}" th:errors="${taskFormEntity.end}" style="color:red;"></div>
-        <div th:if="${#fields.hasErrors('*')}" th:errors="${taskFormEntity.dateValid}" style="color:red;"></div><!-- -->
+        <div th:if="${#fields.hasErrors('*')}" th:errors="${taskFormEntity.dateValid}" style="color:red;"></div>
+        <!-- -->
 
         <!-- -->
         <button type="submit" th:text="${taskFormEntity.id == null}? '登録' : '更新'"></button>
