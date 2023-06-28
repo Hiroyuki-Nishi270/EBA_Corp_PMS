@@ -30,7 +30,16 @@ public class TicketController {
     CRUDAttachFileRepository attachFileRepository;
 
     @GetMapping("/new")
-    public String getNewTask(TaskFormEntity taskFormEntity){
+    public String getNewTask(Model model){
+        List<FrappeGanttTaskData> TaskListShort = (List<FrappeGanttTaskData>) FrappeGanttTaskDataRepository.findAll();
+
+        TaskFormEntity taskFormEntity = new TaskFormEntity();
+        model.addAttribute("taskListShort", TaskListShort);
+        model.addAttribute("taskFormEntity", taskFormEntity);
+        model.addAttribute("JsTaskFormEntity", null);
+        model.addAttribute("JsTaskListShort", TaskListShort);
+
+
         return "ticketdetail";
     }
 
@@ -38,13 +47,21 @@ public class TicketController {
     public String postNewTask(@Validated TaskFormEntity taskFormEntity,
                               BindingResult bindingResult,
                               Model model){
+        List<FrappeGanttTaskData> TaskListShort = (List<FrappeGanttTaskData>) FrappeGanttTaskDataRepository.findAll();
         if (!bindingResult.hasErrors()) {
             try{
-
                 TaskFormRepository.save(taskFormEntity);
                 model.addAttribute("message", "タスク登録に成功しました");
+                model.addAttribute("taskListShort", TaskListShort);
+                model.addAttribute("taskFormEntity", taskFormEntity);
+                model.addAttribute("JsTaskFormEntity", taskFormEntity);
+                model.addAttribute("JsTaskListShort", TaskListShort);
             }catch(Exception e){
                 model.addAttribute("message", "タスク登録に失敗しました");
+                model.addAttribute("taskListShort", TaskListShort);
+                model.addAttribute("taskFormEntity", taskFormEntity);
+                model.addAttribute("JsTaskFormEntity", taskFormEntity);
+                model.addAttribute("JsTaskListShort", TaskListShort);
             }
         }
         return "ticketdetail";

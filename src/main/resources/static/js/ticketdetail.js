@@ -1,12 +1,5 @@
-//Orifginal
+//Original
 function createDependencies(_dependencyRow, _taskListShort) {
-    //console.log(_dependencyRow);
-    console.log(_taskListShort);
-
-    console.log(_dependencyRow !== null);
-    console.log(_dependencyRow !== undefined);
-    console.log(_taskListShort !== null);
-    console.log(_taskListShort !== undefined);
     if ((_dependencyRow !== null) && (_dependencyRow !== undefined) && (_taskListShort !== null) && (_taskListShort !== undefined)) {
         let dependencyRow = _dependencyRow.split(',');
         let taskListShort = JSON.parse(_taskListShort);
@@ -18,10 +11,10 @@ function createDependencies(_dependencyRow, _taskListShort) {
         //console.log(dependencyRow);
         //テーブルデータの作成処理開始
         dependencyRow.forEach(element => {
+            //let flag = false;
             taskListShort.forEach(seeker => {
                 if (seeker.id == element) {
-
-
+                    //flag = true;
                     let dependency_items = document.querySelector('#dependency_items');
                     dependency_items.children = null;
 
@@ -87,3 +80,33 @@ function show() {
 }
 
 function add() { }
+
+function findCandidates(_dependencyRow, _taskListShort, id) {
+    if ((_dependencyRow !== null) && (_dependencyRow !== undefined) && (_taskListShort !== null) && (_taskListShort !== undefined)) {
+        let dependencyRow = _dependencyRow.split(',');
+        let taskListShort = JSON.parse(_taskListShort);
+
+        let dependency_candidates = document.querySelector('#dependency_candidates');
+
+        taskListShort.forEach(seeker => {
+            let flag = false;
+            dependencyRow.forEach(element => {
+                if (seeker.id == element) {
+                    flag = true;
+                }
+            })
+            if (id !== null && id !== undefined && id == seeker.id) {
+                flag = true;
+            }
+
+            if (!flag) {
+                let dependency_candidate = document.createElement('option');
+                dependency_candidate.setAttribute('id_value', seeker.id);
+                dependency_candidate.innerText = seeker.name;
+                dependency_candidates.appendChild(dependency_candidate);
+            }
+        })
+
+    }
+
+}
