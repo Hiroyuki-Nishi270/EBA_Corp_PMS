@@ -52,18 +52,15 @@ public class TicketController {
             try{
                 TaskFormRepository.save(taskFormEntity);
                 model.addAttribute("message", "タスク登録に成功しました");
-                model.addAttribute("taskListShort", TaskListShort);
-                model.addAttribute("taskFormEntity", taskFormEntity);
-                model.addAttribute("JsTaskFormEntity", taskFormEntity);
-                model.addAttribute("JsTaskListShort", TaskListShort);
             }catch(Exception e){
                 model.addAttribute("message", "タスク登録に失敗しました");
-                model.addAttribute("taskListShort", TaskListShort);
-                model.addAttribute("taskFormEntity", taskFormEntity);
-                model.addAttribute("JsTaskFormEntity", taskFormEntity);
-                model.addAttribute("JsTaskListShort", TaskListShort);
+
             }
         }
+        model.addAttribute("taskListShort", TaskListShort);
+        model.addAttribute("taskFormEntity", taskFormEntity);
+        model.addAttribute("JsTaskFormEntity", taskFormEntity);
+        model.addAttribute("JsTaskListShort", TaskListShort);
         return "ticketdetail";
     }
 
@@ -79,10 +76,11 @@ public class TicketController {
         System.out.println(TaskListShort);
         //System.out.println(Dependencies);
 
-        model.addAttribute("taskFormEntity", taskFormEntity);
-        model.addAttribute("attachFileEntity", attachFileEntities);
         model.addAttribute("taskListShort", TaskListShort);
-        //model.addAttribute("dependencies", Dependencies);
+        model.addAttribute("taskFormEntity", taskFormEntity);
+        model.addAttribute("JsTaskFormEntity", taskFormEntity);
+        model.addAttribute("JsTaskListShort", TaskListShort);
+        model.addAttribute("attachFileEntity", attachFileEntities);
 
         return "ticketdetail";
     }
@@ -104,9 +102,11 @@ public class TicketController {
 
         List<AttachFileEntity> attachFileEntities = attachFileRepository.findByTicketidEquals(id);
 
-        model.addAttribute("taskForm", taskFormEntity);
-        model.addAttribute("attachFileEntity", attachFileEntities);
         model.addAttribute("taskListShort", TaskListShort);
+        model.addAttribute("taskFormEntity", taskFormEntity);
+        model.addAttribute("JsTaskFormEntity", taskFormEntity);
+        model.addAttribute("JsTaskListShort", TaskListShort);
+        model.addAttribute("attachFileEntity", attachFileEntities);
         return "ticketdetail";
 
     }
