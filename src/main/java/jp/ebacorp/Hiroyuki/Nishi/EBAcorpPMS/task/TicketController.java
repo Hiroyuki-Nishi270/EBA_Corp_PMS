@@ -74,6 +74,8 @@ public class TicketController {
                                  @Validated TaskFormEntity taskFormEntity,
                                  BindingResult bindingResult,
                                  Model model){
+        List<FrappeGanttTaskData> TaskListShort = (List<FrappeGanttTaskData>) FrappeGanttTaskDataRepository.findAll();
+
         if (!bindingResult.hasErrors()) {
             try {
                 TaskFormRepository.save(taskFormEntity);
@@ -87,6 +89,7 @@ public class TicketController {
 
         model.addAttribute("taskForm", taskFormEntity);
         model.addAttribute("attachFileEntity", attachFileEntities);
+        model.addAttribute("taskListShort", TaskListShort);
         return "ticketdetail";
 
     }

@@ -37,7 +37,7 @@ public class TaskFormEntity {
     private Integer progress;
 
     //dependencies: 'Task 0'      //親タスクのid(','で区切る)
-    @Pattern(regexp = "[0-9,]")
+    @Pattern(regexp = "[0-9,]*")
     private String dependencies;
 
     @Length(min=0, max = 65535)

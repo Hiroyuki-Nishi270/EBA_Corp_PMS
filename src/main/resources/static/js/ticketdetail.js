@@ -1,6 +1,13 @@
+//Orifginal
 function createDependencies(_dependencyRow, _taskListShort) {
-    console.log(_dependencyRow);
-    if (_dependencyRow !== null && _dependencyRow !== undefined && _taskListShort !== null && _taskListShort !== undefined) {
+    //console.log(_dependencyRow);
+    console.log(_taskListShort);
+
+    console.log(_dependencyRow !== null);
+    console.log(_dependencyRow !== undefined);
+    console.log(_taskListShort !== null);
+    console.log(_taskListShort !== undefined);
+    if ((_dependencyRow !== null) && (_dependencyRow !== undefined) && (_taskListShort !== null) && (_taskListShort !== undefined)) {
         let dependencyRow = _dependencyRow.split(',');
         let taskListShort = JSON.parse(_taskListShort);
 
@@ -61,12 +68,6 @@ function createDependencies(_dependencyRow, _taskListShort) {
     }
 }
 
-function createDependencyData(dependencies) {
-    if (dependencies !== null && dependencies !== undefined) {
-        return dependencies.split(",");
-    }
-    return null;
-}
 function remove(x) {
     let task_dependencies = document.querySelector('#task_dependencies').value.split(',');
 
@@ -80,6 +81,9 @@ function remove(x) {
 
     document.querySelector('#dependency_items').removeChild(document.querySelector('#dependency_item' + x));
 
+}
+function show() {
+    console.log("show");
 }
 
 function add() { }
