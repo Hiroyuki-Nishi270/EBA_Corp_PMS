@@ -24,7 +24,6 @@ public class MainController {
 
         model.addAttribute("taskList",TasksListShort);
         model.addAttribute("ganttTaskList",TasksListShort);
-        model.addAttribute("JsTaskListShort", TasksListShort);
         return "index";
     }
 
