@@ -8,9 +8,10 @@
 	<script th:src="@{/js/frappe-gantt.min.js}"></script>
 
 	<!--テスト用-->
+	<!--
 	<link rel="stylesheet" href="frappe-gantt.css" />
 	<script src="frappe-gantt.min.js"></script>
-
+-->
 	<style>
 		body {
 			font-family: sans-serif;
@@ -78,7 +79,7 @@
 		<!--隠しパラメータ-->
 		<form method="post" th:action="@{/}">
 			<pre class="task_list"></pre><br>
-			<input id="task_list"><br>
+			<input id="updated_task_list_by_gantt" name="updated_task_list_by_gantt"><br>
 
 			<button id="resetGantt" type="reset" class="btn btn-sm btn-light">リセット</button>
 			<button id="updateTasks" type="submit">更新</button>
@@ -86,53 +87,53 @@
 	</div>
 
 
-	<!--<input type="hidden" id="task0start" name="" value="2018-10-01 0:00:00"> -->
 	<script type="text/javascript" th:inline="javascript">
 		//初期化処理
 
-		//let taskListShort = /*[[${JsTaskListShort}]]*/ null;
+		let taskListShort = /*[[${JsTaskListShort}]]*/ null;
 
 
 
 		//let ganttTaskList = /*[[${ganttTaskList}]]*/ null;
-
-		let taskListShort = [
-			{
-				"id": "1",
-				"start": "2023-06-21",
-				"end": "2023-06-23",
-				"name": "タスク１名前",
-				"progress": 0,
-				"dependencies": null
-			},
-			{
-				"id": "2",
-				"start": "2023-06-22",
-				"end": "2023-06-24",
-				"name": "タスク２名前",
-				"progress": 0,
-				"dependencies": "1"
-			},
-			{
-				"id": "3",
-				"start": "2023-06-24",
-				"end": "2023-06-28",
-				"name": "タスク３名前",
-				"progress": 70,
-				"dependencies": "1,2"
-			},
-			{
-				"id": "4",
-				"start": "2023-06-22",
-				"end": "2023-06-23",
-				"name": "タスク４名前",
-				"progress": 0,
-				"dependencies": "3"
-			}
-		];
+		/*
+				let taskListShort = [
+					{
+						"id": "1",
+						"start": "2023-06-21",
+						"end": "2023-06-23",
+						"name": "タスク１名前",
+						"progress": 0,
+						"dependencies": null
+					},
+					{
+						"id": "2",
+						"start": "2023-06-22",
+						"end": "2023-06-24",
+						"name": "タスク２名前",
+						"progress": 0,
+						"dependencies": "1"
+					},
+					{
+						"id": "3",
+						"start": "2023-06-24",
+						"end": "2023-06-28",
+						"name": "タスク３名前",
+						"progress": 70,
+						"dependencies": "1,2"
+					},
+					{
+						"id": "4",
+						"start": "2023-06-22",
+						"end": "2023-06-23",
+						"name": "タスク４名前",
+						"progress": 0,
+						"dependencies": "3"
+					}
+				];
+				*/
 		if (taskListShort !== null && taskListShort !== undefined) {
 			document.querySelector('.task_list').innerText = JSON.stringify(taskListShort);
-			document.querySelector('#task_list').value = JSON.stringify(taskListShort);
+			document.querySelector('#updated_task_list_by_gantt').value = JSON.stringify(taskListShort);
 		}
 
 		//デバッグ用処理
