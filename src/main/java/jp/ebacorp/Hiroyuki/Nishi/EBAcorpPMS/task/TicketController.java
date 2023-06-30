@@ -1,7 +1,7 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task;
 
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.CRUDFrappeGanttTaskDataRepository;
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.FrappeGanttTaskData;
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.CRUDGanttTaskDataRepository;
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.GanttTaskData;
 import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.storage.AttachFileEntity;
 import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.storage.CRUDAttachFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -24,14 +23,14 @@ public class TicketController {
     CRUDTaskFormRepository TaskFormRepository;
 
     @Autowired
-    CRUDFrappeGanttTaskDataRepository FrappeGanttTaskDataRepository;
+    CRUDGanttTaskDataRepository FrappeGanttTaskDataRepository;
 
     @Autowired
     CRUDAttachFileRepository attachFileRepository;
 
     @GetMapping("/new")
     public String getNewTask(Model model){
-        List<FrappeGanttTaskData> TaskListShort = (List<FrappeGanttTaskData>) FrappeGanttTaskDataRepository.findAll();
+        List<GanttTaskData> TaskListShort = (List<GanttTaskData>) FrappeGanttTaskDataRepository.findAll();
 
         TaskFormEntity taskFormEntity = new TaskFormEntity();
         model.addAttribute("taskListShort", TaskListShort);
@@ -47,7 +46,7 @@ public class TicketController {
     public String postNewTask(@Validated TaskFormEntity taskFormEntity,
                               BindingResult bindingResult,
                               Model model){
-        List<FrappeGanttTaskData> TaskListShort = (List<FrappeGanttTaskData>) FrappeGanttTaskDataRepository.findAll();
+        List<GanttTaskData> TaskListShort = (List<GanttTaskData>) FrappeGanttTaskDataRepository.findAll();
         if (!bindingResult.hasErrors()) {
             try{
                 TaskFormRepository.save(taskFormEntity);
@@ -70,7 +69,7 @@ public class TicketController {
 
         TaskFormEntity taskFormEntity = TaskFormRepository.findById(id).get();
         List<AttachFileEntity> attachFileEntities = attachFileRepository.findByTicketidEquals(id);
-        List<FrappeGanttTaskData> TaskListShort = (List<FrappeGanttTaskData>) FrappeGanttTaskDataRepository.findAll();
+        List<GanttTaskData> TaskListShort = (List<GanttTaskData>) FrappeGanttTaskDataRepository.findAll();
 
         //List<String> Dependencies = Arrays.asList(taskFormEntity.getDependencies().split(","));
         System.out.println(TaskListShort);
@@ -89,7 +88,7 @@ public class TicketController {
                                  @Validated TaskFormEntity taskFormEntity,
                                  BindingResult bindingResult,
                                  Model model){
-        List<FrappeGanttTaskData> TaskListShort = (List<FrappeGanttTaskData>) FrappeGanttTaskDataRepository.findAll();
+        List<GanttTaskData> TaskListShort = (List<GanttTaskData>) FrappeGanttTaskDataRepository.findAll();
 
         if (!bindingResult.hasErrors()) {
             try {

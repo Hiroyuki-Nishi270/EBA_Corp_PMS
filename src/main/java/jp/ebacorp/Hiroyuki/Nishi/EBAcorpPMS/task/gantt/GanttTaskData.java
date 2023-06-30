@@ -6,7 +6,7 @@ import lombok.Data;
 @Entity
 @Table(name = "frappe_gantt_task_data")
 @Data
-public class FrappeGanttTaskData {
+public class GanttTaskData {
     //フィールド
 
     @Id
