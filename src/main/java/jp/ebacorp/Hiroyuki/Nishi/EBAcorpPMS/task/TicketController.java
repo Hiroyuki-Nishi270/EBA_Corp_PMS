@@ -30,36 +30,36 @@ public class TicketController {
 
     @GetMapping("/new")
     public String getNewTask(Model model){
-        List<GanttTaskData> TaskListShort = (List<GanttTaskData>) FrappeGanttTaskDataRepository.findAll();
+        List<GanttTaskData> TasksListShort = (List<GanttTaskData>) FrappeGanttTaskDataRepository.findAll();
 
-        TaskFormEntity taskFormEntity = new TaskFormEntity();
-        model.addAttribute("taskListShort", TaskListShort);
-        model.addAttribute("taskFormEntity", taskFormEntity);
+        TaskFormEntity TaskFormEntity = new TaskFormEntity();
+        model.addAttribute("taskListShort", TasksListShort);
+        model.addAttribute("taskFormEntity", TaskFormEntity);
         model.addAttribute("JsTaskFormEntity", null);
-        model.addAttribute("JsTaskListShort", TaskListShort);
+        model.addAttribute("JsTaskListShort", TasksListShort);
 
 
         return "ticketdetail";
     }
 
     @PostMapping("/new")
-    public String postNewTask(@Validated TaskFormEntity taskFormEntity,
+    public String postNewTask(@Validated TaskFormEntity TaskFormEntity,
                               BindingResult bindingResult,
                               Model model){
-        List<GanttTaskData> TaskListShort = (List<GanttTaskData>) FrappeGanttTaskDataRepository.findAll();
+        List<GanttTaskData> TasksListShort = (List<GanttTaskData>) FrappeGanttTaskDataRepository.findAll();
         if (!bindingResult.hasErrors()) {
             try{
-                TaskFormRepository.save(taskFormEntity);
+                TaskFormRepository.save(TaskFormEntity);
                 model.addAttribute("message", "タスク登録に成功しました");
             }catch(Exception e){
                 model.addAttribute("message", "タスク登録に失敗しました");
 
             }
         }
-        model.addAttribute("taskListShort", TaskListShort);
-        model.addAttribute("taskFormEntity", taskFormEntity);
-        model.addAttribute("JsTaskFormEntity", taskFormEntity);
-        model.addAttribute("JsTaskListShort", TaskListShort);
+        model.addAttribute("taskListShort", TasksListShort);
+        model.addAttribute("taskFormEntity", TaskFormEntity);
+        model.addAttribute("JsTaskFormEntity", TaskFormEntity);
+        model.addAttribute("JsTaskListShort", TasksListShort);
         return "ticketdetail";
     }
 

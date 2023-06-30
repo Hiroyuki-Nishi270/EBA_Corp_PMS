@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>タスク詳細</title>
+</head>
+
+<body>
+    <!--先行タスク元データ-->
+    <input id="dependency_original" type="hidden">
+    <!--先行タスク用タスクリスト-->
+    <input id="task_list" type="hidden">
+
+    <h2 class="heading">タスク詳細</h2>
+    <div th:if="${message != null}" th:text="${message}"></div>
+    <!--タスク-->
+    <form method="post" th:action="${taskFormEntity.id == null}? @{/ticket/new} : @{'/ticket/' + ${taskFormEntity.id}}"
+        th:object="${taskFormEntity}">
+        <label for="task_id">タスクid</label>
+        <div id="task_id" th:text="${taskFormEntity.id == null}? '新規タスク(未登録)' : ${taskFormEntity.id}"></div>
+        <input type="hidden" name="id" th:value="${taskFormEntity.id}">
+
+        <label for="task_name">タスク名</label>
+        <input type="text" id="task_name" name="name" required th:value="${taskFormEntity.name}" maxlength="255"><br>
+        <div th:if="${#fields.hasErrors('name')}" th:errors="${taskFormEntity.name}" style="color:red;"></div>
+
+        <label for="task_detail">タスク内容</label>
+        <textarea id="task_detail" name="detail" th:text="${taskFormEntity.detail}" maxlength="65535"
+            title="65535文字以内に納めてください"></textarea>
+        <div th:if="${#fields.hasErrors('detail')}" th:errors="${taskFormEntity.detail}" style="color:red;"></div>
+
+        <label for="task_progress">進捗</label>
+        <input type="number" id="task_progress" name="progress"
+            th:value="${taskFormEntity.progress == null}? '0':${taskFormEntity.progress}" min="0" max="100" step="10"
+            required><br>
+        <div th:if="${#fields.hasErrors('progress')}" th:errors="${taskFormEntity.progress}" style="color:red;"></div>
+
+        <!--Dependency-->
+        <label for="task_dependencies">先行タスク</label>
+        <input id="task_dependencies" type="hidden" name="dependencies" th:value="${taskFormEntity.dependencies}">
+        <!--Javascriptで実装する-->
+        <table id="dependency_table">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>タスク名</th>
+                    <th>進捗</th>
+                    <th>開始日</th>
+                    <th>終了日</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="dependency_items">
+                <!-- Javascript-->
+            </tbody>
+        </table>
+        <select id="dependency_candidates"></select>
+
+        <button type="button" id="showDependencyScreen">先行タスク追加</button><br>
+
+        <label for="task_start">開始日</label>
+        <input type="date" id="task_start" name="start" th:value="${taskFormEntity.start}" required><br>
+        <div th:if="${#fields.hasErrors('start')}" th:errors="${taskFormEntity.start}" style="color:red;"></div>
+
+        <label for="task_end">終了日</label>
+        <input type="date" id="task_end" name="end" th:value="${taskFormEntity.end}" required><br>
+        <div th:if="${#fields.hasErrors('end')}" th:errors="${taskFormEntity.end}" style="color:red;"></div>
+        <div th:if="${#fields.hasErrors('*')}" th:errors="${taskFormEntity.dateValid}" style="color:red;"></div>
+        <!-- -->
+
+        <!-- -->
+        <button type="submit" th:text="${taskFormEntity.id == null}? '登録' : '更新'"></button>
+        <a href="/">戻る</a>
+    </form>
+    <!--添付ファイルアップロード -->
+    <form method="POST" enctype="multipart/form-data" th:action="@{'/file/upload/' + ${taskFormEntity.id}}"
+        th:object="${attachFileEntity}" th:if="${taskFormEntity.id != null}">
+        <table>
+            <tr>
+                <td>添付ファイルアップロード</td>
+                <td><input type="file" id="attachFileEntity" name="attachFileEntity" /></td>
+                <td><input type="submit" value="アップロード" /></td>
+            </tr>
+        </table>
+    </form>
+    <!--添付ファイルリスト -->
+    <table th:if="${attachFileEntity != null}" th:object="${attachFileEntity}">
+        <thead>
+            <tr>
+                <th>添付ファイル</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="file : ${attachFileEntity}">
+                <td><a th:href="@{'/file/'+ ${taskFormEntity.id} + '/'+ ${file.filename}}"
+                        th:text="${file.filename}"></a></td>
+            </tr>
+        </tbody>
+    </table>
+    <!--
+    <div id="addDependencyScreen">
+        <table>
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>タスク名</th>
+                    <th>進捗</th>
+                    <th>開始日</th>
+                    <th>終了日</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+    </div>-->
+
+    <!--<script src="/ticketdetail.js"></script>仮-->
+    <script th:src="@{/js/ticketdetail.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        //初期化処理
+
+        let taskFormEntity = /*[[${JsTaskFormEntity}]]*/ null;
+        let taskListShort = /*[[${JsTaskListShort}]]*/ null;
+
+/*
+        let taskFormEntity = {
+            "id": 3,
+            "start": "2023-06-24",
+            "end": "2023-06-28",
+            "name": "タスク３名前",
+            "progress": 70,
+            "dependencies": "1",
+            "detail": "1",
+            "dateValid": true
+        };
+        let taskListShort = [
+            {
+                "id": "1",
+                "start": "2023-06-21",
+                "end": "2023-06-23",
+                "name": "タスク１名前",
+                "progress": 0,
+                "dependencies": null
+            },
+            {
+                "id": "2",
+                "start": "2023-06-22",
+                "end": "2023-06-24",
+                "name": "タスク２名前",
+                "progress": 0,
+                "dependencies": "1"
+            },
+            {
+                "id": "3",
+                "start": "2023-06-24",
+                "end": "2023-06-28",
+                "name": "タスク３名前",
+                "progress": 70,
+                "dependencies": "1,2"
+            },
+            {
+                "id": "4",
+                "start": "2023-06-22",
+                "end": "2023-06-23",
+                "name": "タスク４名前",
+                "progress": 0,
+                "dependencies": "3"
+            }
+        ];
+
+        */
+
+        //let taskFormEntity = null;
+        //let taskListShort = null;
+        //let taskFormEntity = { "id": 3, "start": "2023-06-24", "end": "2023-06-28", "name": "\u65B0\u898F", "progress": 70, "dependencies": null, "detail": "1", "dateValid": true };
+        //let taskFormEntity = { "id": 3, "start": "2023-06-24", "end": "2023-06-28", "name": "\u65B0\u898F", "progress": 70, "dependencies": 1, "detail": "1", "dateValid": true };
+
+        document.querySelector('#showDependencyScreen').addEventListener('click', add);
+
+        if (taskFormEntity !== null && taskFormEntity !== undefined && taskFormEntity.dependencies !== null && taskFormEntity.dependencies !== undefined) {
+            document.querySelector('#dependency_original').value = taskFormEntity.dependencies;
+            document.querySelector('#task_dependencies').value = taskFormEntity.dependencies;
+        }
+        if (taskListShort !== null && taskListShort !== undefined) {
+            document.querySelector('#task_list').value = JSON.stringify(taskListShort);
+        }
+        if (taskFormEntity !== null && taskFormEntity !== undefined && taskFormEntity.dependencies !== null && taskFormEntity.dependencies !== undefined) {
+            if (taskListShort !== null && taskListShort !== undefined) {
+                createDependencies(document.querySelector('#dependency_original').value, document.querySelector('#task_list').value);//先行タスク表示の初期化
+            }
+        }
+        if (taskListShort !== null && taskListShort !== undefined) {
+            let id = null;
+            if (taskFormEntity !== null) {
+                id = taskFormEntity.id;
+            }
+            findCandidates(document.querySelector('#dependency_original').value, document.querySelector('#task_list').value, id);
+        }
+
+
+    </script>
+</body>
+
+</html>
