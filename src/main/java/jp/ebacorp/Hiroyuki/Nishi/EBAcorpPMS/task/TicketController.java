@@ -72,7 +72,7 @@ public class TicketController {
         List<GanttTaskData> TaskListShort = (List<GanttTaskData>) FrappeGanttTaskDataRepository.findAll();
 
         //List<String> Dependencies = Arrays.asList(taskFormEntity.getDependencies().split(","));
-        System.out.println(TaskListShort);
+        //System.out.println(TaskListShort);
         //System.out.println(Dependencies);
 
         model.addAttribute("taskListShort", TaskListShort);
