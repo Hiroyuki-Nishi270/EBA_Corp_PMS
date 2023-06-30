@@ -1,11 +1,14 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
 
 
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.CRUDFrappeGanttTaskDataRepository;
-import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.FrappeGanttTaskData;
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.CRUDGanttTaskDataRepository;
+
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.GanttTaskData;
+import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.GanttTaskList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -14,15 +17,28 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    CRUDFrappeGanttTaskDataRepository FrappeGanttTaskDataRepository;
+    CRUDGanttTaskDataRepository ganttTaskDataRepository;
+
 
     @GetMapping
     String getIndex(Model model){
-        List<FrappeGanttTaskData> Tasks = (List<FrappeGanttTaskData>) FrappeGanttTaskDataRepository.findAll();
-        List<FrappeGanttTaskData> TasksForGantt = FrappeGanttTaskDataRepository.findAllByOrderByStartAscEndAsc();
+        List<GanttTaskData> TasksListShort = (List<GanttTaskData>) ganttTaskDataRepository.findAll();
 
-        model.addAttribute("taskList",Tasks);
-        model.addAttribute("ganttTaskList",Tasks);
+        model.addAttribute("taskList",TasksListShort);
+        model.addAttribute("ganttTaskList",TasksListShort);
+        model.addAttribute("JsTaskListShort", TasksListShort);
+        return "index";
+    }
+
+    @PostMapping
+    String postIndex(Model model,
+                     @RequestParam("task[0].id") String test
+            /*taskList<GanttTaskData> Tasks*/){
+
+        //System.out.println(Tasks);
+
+        //model.addAttribute("taskList",Tasks);
+        //model.addAttribute("ganttTaskList",Tasks);
         return "index";
     }
 
