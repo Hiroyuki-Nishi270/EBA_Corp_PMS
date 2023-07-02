@@ -25,9 +25,9 @@
         <input type="text" id="task_name" name="name" required th:value="${taskFormEntity.name}" maxlength="255"><br>
         <div th:if="${#fields.hasErrors('name')}" th:errors="${taskFormEntity.name}" style="color:red;"></div>
 
-        <label for="task_detail">タスク内容</label>
+        <label for="task_detail">タスク内容</label><br>
         <textarea id="task_detail" name="detail" th:text="${taskFormEntity.detail}" maxlength="65535"
-            title="65535文字以内に納めてください"></textarea>
+            title="65535文字以内に納めてください" style="width:80%; height:200px;"></textarea><br>
         <div th:if="${#fields.hasErrors('detail')}" th:errors="${taskFormEntity.detail}" style="color:red;"></div>
 
         <label for="task_progress">進捗</label>
