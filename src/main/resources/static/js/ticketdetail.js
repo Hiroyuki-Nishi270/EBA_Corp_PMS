@@ -81,9 +81,7 @@ function remove(x) {
     dependency_candidate.innerText = target.getAttribute('ticket_name');
     dependency_candidates.appendChild(dependency_candidate);
 
-    //console.log(target);
-
-    //リストからの削除
+    //テーブルからの削除
     let task_dependencies = document.querySelector('#task_dependencies').value.split(',');
     task_dependencies = task_dependencies.filter((t) => t != x);
     console.log(task_dependencies);
@@ -91,8 +89,6 @@ function remove(x) {
     //隠しパラメータのInputタグ更新
     document.querySelector('#task_dependencies').value = task_dependencies.join(',');
     document.querySelector('#dependency_items').removeChild(document.querySelector('#dependency_item' + x));
-
-
 
 }
 function add() {
@@ -156,9 +152,7 @@ function add() {
             //selectタグ内からの削除
             document.querySelector('#dependency_candidates').removeChild(opt);
         }
-
     }
-
 }
 
 function findCandidates(_dependencyRow, _taskListShort, id) {
@@ -192,7 +186,5 @@ function findCandidates(_dependencyRow, _taskListShort, id) {
                 dependency_candidates.appendChild(dependency_candidate);
             }
         })
-
     }
-
 }

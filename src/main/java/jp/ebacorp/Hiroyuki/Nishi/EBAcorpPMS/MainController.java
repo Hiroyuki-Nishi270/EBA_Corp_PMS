@@ -1,6 +1,5 @@
 package jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jp.ebacorp.Hiroyuki.Nishi.EBAcorpPMS.task.gantt.CRUDGanttTaskDataRepository;
@@ -28,14 +27,11 @@ public class MainController {
     }
 
     @PostMapping
-    String postIndex(@RequestParam("updated_task_list_by_gantt") String receive
-    ){
-
+    String postIndex(@RequestParam("updated_task_list_by_gantt") String receive){
         try {
             GanttTaskData[] convertedGanttTaskData = new ObjectMapper().readValue(receive, GanttTaskData[].class);
 
-            for (GanttTaskData x: convertedGanttTaskData
-                 ) {
+            for (GanttTaskData x: convertedGanttTaskData) {
                 ganttTaskDataRepository.save(x);
             }
         }catch (JsonProcessingException e) {
@@ -43,5 +39,4 @@ public class MainController {
         }
         return "redirect:";
     }
-
 }

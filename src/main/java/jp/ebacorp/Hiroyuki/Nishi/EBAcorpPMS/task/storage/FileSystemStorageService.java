@@ -25,12 +25,10 @@ public class FileSystemStorageService {
 	CRUDAttachFileRepository AttachFileRepository;
 	@Autowired
 	public FileSystemStorageService(StorageProperties properties) {
-
 		this.rootLocation = Paths.get(properties.getLocation());
 	}
 
 	public void store(MultipartFile file, Integer ticketId) {
-
 		try {
 			if (file.isEmpty()) {
 				throw new StorageException("Failed to store empty file.");
@@ -85,11 +83,9 @@ public class FileSystemStorageService {
 
 	}
 
-
 	public Path load(String filename, Integer ticketId) {
 		return rootLocation.resolve(ticketId.toString()).resolve(filename);
 	}
-
 
 	public Resource loadAsResource(String filename, Integer ticketId) {
 		try {
@@ -109,11 +105,9 @@ public class FileSystemStorageService {
 		}
 	}
 
-
 	public void deleteAll() {
 		FileSystemUtils.deleteRecursively(rootLocation.toFile());
 	}
-
 
 	public void init() {
 		try {
