@@ -1,29 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
     <title>ユーザー登録</title>
 </head>
+
 <body>
 
-<h2 class="heading">ユーザー登録</h2>
-<form method="post" th:action="@{/signup}" th:object="${signupForm}">
-    <div th:if="${signupError}">
-        <div th:text="${signupError}"></div>
-    </div>
-    <label for="username">ユーザー名</label>
-    <input type="text" id="username" name="username" th:value="${signupForm.username}" pattern="[0-9A-Z]{1,32}" title="1文字以上32文字以内の半角の英語大文字と数字が必要です"><br>
-    <div th:if="${#fields.hasErrors('username')}" th:errors="${signupForm.username}" style="color:red;"></div>
-    <label for="password1">パスワード</label>
-    <input type="password" id="password1" name="password1" th:value="${signupForm.password1}" pattern="(?=.*[A-Z])(?=.*[.?/-])(?=.*[a-z])[a-zA-Z0-9.?/-]{8,24}" title="8文字以上24文字以内の英数字で、最低1文字の大文字と小文字、記号が必要です。"><br>
-    <div th:if="${#fields.hasErrors('password1')}" th:errors="${signupForm.password1}" style="color:red;"></div>
-    <label for="password2">もう一度パスワードを入力</label>
-    <input type="password" id="password2" name="password2" th:value="${signupForm.password2}" pattern="(?=.*[A-Z])(?=.*[.?/-])(?=.*[a-z])[a-zA-Z0-9.?/-]{8,24}" title="8文字以上24文字以内の英数字で、最低1文字の大文字と小文字、記号が必要です。"><br>
-    <div th:if="${#fields.hasErrors('*')}" th:errors="${signupForm.passwordValid}" style="color:red;"></div><!-- -->
-    <button type="submit">登録</button>
-</form>
+    <h2 class="heading">ユーザー登録</h2>
+    <form method="post" th:action="@{/signup}" th:object="${signupForm}" id="inputForm">
+        <div th:if="${signupError}">
+            <div th:text="${signupError}"></div>
+        </div>
+        <label for="username">ユーザー名</label>
+        <input type="text" id="username" name="username" th:value="${signupForm.username}" pattern="[0-9A-Z]{1,32}"
+            title="1文字以上32文字以内の半角の英語大文字と数字が必要です"><br>
+        <div th:if="${#fields.hasErrors('username')}" th:errors="${signupForm.username}" style="color:red;"></div>
+        <span id="usererrormessage"></span>
+        <label for="password1">パスワード</label>
+        <input type="password" id="password1" name="password1" th:value="${signupForm.password1}"
+            pattern="(?=.*[A-Z])(?=.*[.?/-])(?=.*[a-z])[a-zA-Z0-9.?/-]{8,24}"
+            title="8文字以上24文字以内の英数字で、最低1文字の大文字と小文字、記号が必要です。"><br>
+        <div th:if="${#fields.hasErrors('password1')}" th:errors="${signupForm.password1}" style="color:red;"></div>
+        <label for="password2">もう一度パスワードを入力</label>
+        <input type="password" id="password2" name="password2" th:value="${signupForm.password2}"
+            pattern="(?=.*[A-Z])(?=.*[.?/-])(?=.*[a-z])[a-zA-Z0-9.?/-]{8,24}"
+            title="8文字以上24文字以内の英数字で、最低1文字の大文字と小文字、記号が必要です。"><br>
+        <div th:if="${#fields.hasErrors('*')}" th:errors="${signupForm.passwordValid}" style="color:red;"></div><!-- -->
+        <button type="submit">登録</button>
+    </form>
+    <a href="/login">ログイン画面</a>
+    <script type="text/javascript" th:inline="javascript">
+        let inputUsername = document.querySelector('#username');
+        let formData = document.querySelector('#inputForm');
+        let userExist = -1;
+        inputUsername.addEventListener('change', function () {
+            let params = new URLSearchParams();
+            params.set('username', inputUsername.value);
 
-<a href="/login">ログイン画面</a>
+            console.log(`/checkUserName?${params.toString()}`);
+            fetch(`/checkUserName?${params.toString()}`, {
+                method: 'GET',
+            })
+                .then(res => res.text())
+                .then(text => {
+                    if (text == 1) {
+                        console.log("Already exist");
+                        document.querySelector('#usererrormessage').textContent = "このユーザーは既に存在しています。";
+                    } else if (text == 0) {
+                        console.log("Available to register");
+                        document.querySelector('#usererrormessage').textContent = "";
+                    }
+                })
+
+            //console.log(text);
+
+        }, false);
+
+
+    </script>
 </body>
+
 </html>
